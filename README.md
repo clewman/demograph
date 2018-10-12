@@ -18,4 +18,4 @@ Week 2: Create basic (non-js) divs, dropdowns, and input fields in templates. Ad
 
 Week 3: Connect input and divs with Javascript for dropdowns and sliding divs. Probably more charts/maps.
 
-Week 4: Style and iron out kinks
+Week 4: Style, catch user errors, and iron out kinks
