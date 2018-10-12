@@ -4,7 +4,7 @@ A PDX Code Guild Capstone Project
 
 
 Project Overview
-This web application allows users to pull information from a database and create custom graphs. These graphs can be used for a variety of uses, including: student reports in science, social science, and English; socially motivated groups who need graphs in their reports, social media, advertising, and more; the farming industry who need data on exports, commodities, farm scale, consumption, sales, and labor; as well as for any person interested in seeing the relationship between poverty, education, employment, population size, food access, and farm characteristics. 
+This web application allows users to pull information from a database and create custom graphs. These graphs can be used for a variety of uses, including: student reports in science, social science, and English; socially motivated groups who need graphs in their reports, social media, advertising, and more; as well as for any person interested in seeing the relationship between poverty, education, employment, population size, and food access. 
 
 This project will be wrapped in Django and include Python for parsing through the government data set, JavaScript to enhance the user experience, chartjs to display the charts, and basic CSS and HTML with Materialize. 
 
