@@ -12,9 +12,9 @@ When a user first goes to the page, they will see the story written in the first
 
 The input boxes will first appear using Materialize's Media Left Align Caption, which slides a div in. The database, SQLite, will capture the user input and add it to the database in this order: 1. title 2. map type 3. region 4. x axis 5. y axis. (Note: all fields will be required.) As each input is added to the database, Django will then update the chartjs with the new information. After each user input, Materialize will slide the input div to the right and stay there until the final page. The final page will use Materialize dropdowns for title, map type, region, and axes; display the full chartjs chart; and have two extra boxes with additional functionality- map types and print, save, and share. 
 
-The data that I will need to store is: Title, Map Type, Region, X Axis, and Y Axis.
-Data Model
-What data will you need to store as part of your application? These should be specific nouns, collections of information that serve a collective purpose. Examples might be 'User', 'Book', 'ImageSet'.
+The data that I will need to store is: Title, Map Type, Region, X Axis, and Y Axis. If I decide to allow users to save their maps/charts, then I will also need to create a user login system.
 
-Schedule
-Here you'll want to come up with some (very rough) estimates of the timeframe for each section. State specifically which steps you'll take in the implementation. This section should also include work you're planning to do after the capstone is finished.
+Week 1: Create Django project, app, and associated files. Add templates and Materialize. Build models and views. 
+Week 2: Create basic (non-js) divs, dropdowns, and input fields in templates. Add charts/maps and test. 
+Week 3: Connect input and divs with Javascript for dropdowns and sliding divs. Probably more charts/maps.
+Week 4: Style and iron out kinks
