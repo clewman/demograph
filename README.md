@@ -15,6 +15,9 @@ The input boxes will first appear using Materialize's Media Left Align Caption, 
 The data that I will need to store is: Title, Map Type, Region, X Axis, and Y Axis. If I decide to allow users to save their maps/charts, then I will also need to create a user login system.
 
 Week 1: Create Django project, app, and associated files. Add templates and Materialize. Build models and views. 
+
 Week 2: Create basic (non-js) divs, dropdowns, and input fields in templates. Add charts/maps and test. 
+
 Week 3: Connect input and divs with Javascript for dropdowns and sliding divs. Probably more charts/maps.
+
 Week 4: Style and iron out kinks
