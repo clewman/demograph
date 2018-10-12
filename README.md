@@ -10,7 +10,7 @@ When a user first goes to the page, they will see the story written in the first
 
 The input boxes will first appear using Materialize's Media Left Align Caption, which slides a div in. The database, SQLite, will capture the user input and add it to the database in this order: 1. title 2. map type 3. region 4. x axis 5. y axis. (Note: all fields will be required.) As each input is added to the database, Django will then update the chartjs with the new information. After each user input, Materialize will slide the input div to the right and stay there until the final page. The final page will use Materialize dropdowns for title, map type, region, and axes; display the full chartjs chart; and have two extra boxes with additional functionality- map types and print, save, and share. 
 
-The data that I will need to store is: Title, Map Type, Region, X Axis, and Y Axis. If I decide to allow users to save their maps/charts, then I will also need to create a user login system.
+The data that I will need to store are: Title, Map Type, Region, X Axis, and Y Axis. If I decide to allow users to save their maps/charts, then I will also need to create a user login system.
 
 Week 1: Create Django project, app, and associated files. Add templates and Materialize. Build models and views. 
 
