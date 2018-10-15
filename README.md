@@ -16,7 +16,7 @@ The data that I will need to store are: Title, Map Type, Region, X Axis, and Y A
 
 Additional features: If I decide to allow users to save their maps/charts, then I will also need to create a user login system. If I have time, I would also like to use the charts to create predictive graphs based on past data. If I have time, I will add more chart/map types, such as: pie charts and bubble maps. 
 
-Week 1: Create Django project, app, and associated files. Add templates and Materialize. Build models and views. Create dropdown with map types.
+Week 1: Create Django project, app, and associated files. Add templates and Materialize. Build models and views. Create dropdown with map types. Get data and organize it, make it searchable. 
 
 Week 2: Create basic (non-js) divs, dropdowns, and input fields in templates. Build charts/maps in Python and test. 
 
