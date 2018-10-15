@@ -18,7 +18,7 @@ Additional features: If I decide to allow users to save their maps/charts, then 
 
 Week 1: Create Django project, app, and associated files. Add templates and Materialize. Build models and views. 
 
-Week 2: Create basic (non-js) divs, dropdowns, and input fields in templates. Add charts/maps and test. 
+Week 2: Create basic (non-js) divs, dropdowns, and input fields in templates. Build charts/maps in Python and test. 
 
 Week 3: Connect input and divs with Javascript for dropdowns and sliding divs. Probably more charts/maps.
 
