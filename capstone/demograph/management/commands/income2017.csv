@@ -1,0 +1,68 @@
+Table with row headers in column A and column headers in row 4 through 6,,,,,,,,
+"Table 1. 
+Income and Earnings Summary Measures by Selected Characteristics: 2016 and 2017",,,,,,,,
+"(Income in 2017 dollars. Households and people as of March of the following year. For information on confidentiality protection, sampling error, nonsampling error, and definitions, see www2.census.gov/programs-surveys/cps/techdocs/cpsmar18.pdf)",,,,,,,,
+Characteristic,2016,,,2017,,,"Percentage change* in real median income 
+(2017 less 2016)",
+,Number (thousands),"Median income
+(dollars)",,Number (thousands),"Median income
+(dollars)",,,
+,,Estimate,"Margin of
+error1 (±)",,Estimate,"Margin of
+error1 (±)",Estimate,"Margin of
+error1 (±)"
+HOUSEHOLDS,,,,,,,,
+All Households,"126,224","60,309",733,"127,586","61,372",552,*1.8,1.36
+Type of Household,,,,,,,,
+Family households,"82,827","76,676",707,"83,088","77,713",836,*1.4,1.28
+.Married-couple,"60,804","88,929",710,"61,241","90,386",820,*1.6,1.06
+".Female householder, no spouse present","15,572","41,909",890,"15,423","41,703",746,-0.5,2.60
+".Male householder, no spouse present","6,452","59,299","2,219","6,424","60,843","1,733",2.6,4.58
+Nonfamily households,"43,396","36,530",477,"44,498","36,650",557,0.3,1.83
+.Female householder,"22,858","31,230",616,"23,481","30,748",633,-1.5,2.54
+.Male householder,"20,539","42,647",716,"21,017","44,250","2,186",3.8,5.10
+Race2 and Hispanic Origin of Householder,,,,,,,,
+White,"99,400","63,188",561,"100,065","65,273",685,*3.3,1.19
+"..White, not Hispanic","84,387","66,440",857,"84,681","68,145","1,050",*2.6,1.82
+Black,"16,733","40,340","1,212","16,997","40,258",949,-0.2,3.34
+Asian,"6,392","83,183","1,958","6,735","81,331","1,962",-2.2,3.11
+Hispanic (any race),"16,915","48,700","1,137","17,318","50,486",721,*3.7,2.79
+Age of Householder,,,,,,,,
+Under 65 years,"94,425","67,917",593,"94,613","69,628",917,*2.5,1.48
+..15 to 24 years,"6,238","42,551","1,170","6,211","40,093","1,430",*-5.8,3.92
+..25 to 34 years,"20,109","62,243",819,"20,264","62,294","1,051",0.1,2.02
+..35 to 44 years,"21,500","76,082","1,873","21,576","78,368","1,578",*3.0,3.00
+..45 to 54 years,"22,808","78,874","1,181","22,542","80,671","1,064",*2.3,1.87
+..55 to 64 years,"23,770","66,642","1,337","24,020","68,567","1,587",2.9,2.90
+65 years and older,"31,799","40,679",928,"32,973","41,125",839,1.1,2.70
+Nativity of Householder,,,,,,,,
+Native born,"107,192","61,066",706,"107,653","61,987",574,*1.5,1.31
+Foreign born,"19,031","56,754","1,216","19,933","57,273","1,630",0.9,3.38
+..Naturalized citizen,"10,054","65,268","2,684","10,877","65,859","1,754",0.9,4.72
+..Not a citizen,"8,978","49,100","1,770","9,056","49,739","1,406",1.3,4.19
+Region,,,,,,,,
+Northeast,"22,325","65,774","1,845","22,513","66,450","1,437",1.0,2.90
+Midwest,"27,363","59,558","1,508","27,635","61,136","1,039",2.6,2.71
+South,"48,065","55,019","1,185","48,591","55,709",990,1.3,2.43
+West,"28,470","65,658","1,745","28,847","67,517","1,354",2.8,2.97
+Residence3,,,,,,,,
+Inside metropolitan statistical areas,"108,164","62,852",544,"109,734","64,265",971,*2.2,1.60
+..Inside principal cities,"42,265","55,847","1,268","42,564","55,708","1,073",-0.2,2.61
+..Outside principal cities,"65,899","67,754",781,"67,170","69,358","1,178",*2.4,1.84
+Outside metropolitan statistical areas,"18,059","46,789","1,034","17,852","47,563","1,364",1.7,3.01
+EARNINGS,,,,,,,,
+Total Workers,,,,,,,,
+Men with earnings,"86,886","43,128",239,"88,101","44,408","1,226",*3.0,2.78
+Women with earnings,"77,742","31,546",206,"78,196","31,610",171,0.2,0.74
+"Full-Time, Year-Round Workers",,,,,,,,
+Men with earnings,"64,953","52,751",215,"66,379","52,146",225,*-1.1,0.56
+Women with earnings,"48,328","42,448",251,"49,293","41,977",208,*-1.1,0.65
+Female-to-male earnings ratio,X,0.805,0.0052,X,0.805,0.0047,Z,0.79
+*An asterisk preceding an estimate indicates change is statistically different from zero at the 90 percent confidence level.,,,,,,,,
+X  Not applicable.,,,,,,,,
+Z  Represents or rounds to zero.,,,,,,,,
+"1 A margin of error is a measure of an estimate's variability.  The larger the margin of error in relation to the size of the estimate, the less reliable the estimate.  This number, when added to and subtracted from the estimate, forms the 90 percent confidence interval.  Margins of error shown in this table are based on standard errors calculated using replicate weights.  For more information, see ""Standard Errors and Their Use"" at <www2.census.gov/library/publications/2018/demo/p60-263sa.pdf>",,,,,,,,
+"2 Federal surveys give respondents the option of reporting more than one race.  Therefore, two basic ways of defining a race group are possible.  A group such as Asian may be defined as those who reported Asian and no other race (the race-alone or single-race concept) or as those who reported Asian regardless of whether they also reported another race (the race-alone-or-in-combination concept).  This table shows data using the first approach (race alone).  The use of the single-race population does not imply that it is the preferred method of presenting or analyzing data.  The Census Bureau uses a variety of approaches.  Information on people who reported more than one race, such as White and American Indian and Alaska Native or Asian and Black or African American, is available from the 2010 Census through American FactFinder.  About 2.9 percent of people reported more than one race in the 2010 Census.  Data for American Indians and Alaska Natives, Native Hawaiians and Other Pacific  Islanders, and those reporting two or more races are not shown separately.",,,,,,,,
+"3 The 2016 estimates presented for residence may not match the previously published estimates due to a correction in the assignment of principal city status for a small number of households.  For the definition of metropolitan statistical areas and principal cities, see <www.census.gov/programs-surveys/metro-micro/about/glossary.html>.",,,,,,,,
+Note: Inflation-adjusted estimates may differ slightly from other published data due to rounding.,,,,,,,,
+"Source:  U.S. Census Bureau, Current Population Survey, 2017 and 2018 Annual Social and Economic Supplements.",,,,,,,,

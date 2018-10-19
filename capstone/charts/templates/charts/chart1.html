@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        {% load static %}
+
+    <meta charset="UTF-8">
+    <title>Plotly.js Test</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'charts/../../static/charts/style.css' %}">
+</head>
+<body>
+<p> chart 1 page
+{{ python_test }}</p>
+
+  <form action="{% url 'charts:user_choice' %}" method="post" >
+            {% csrf_token %}
+            <h2>Test User Chart Choice:</h2>
+            <input type="text" name="Chart_Type">
+            <br>
+            {{ user_choice }}
+            <button id="save" type="submit">save</button>
+        </form>
+
+
+<div id="line-chart"></div>
+<script src="{% static 'charts/../../static/charts/chart.js' %}"></script>
+
+</script>
+
+<div id="basic-bar">{{ python_test }}</div>
+
+
+</body>
+</html>
