@@ -1,0 +1,71 @@
+{% extends 'charts/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col s2">
+        <div class="input-field col s12 ddMenus chartMenu" style="color:Violet;">
+            <select id="chart_type_ddl" >
+                <option>Graph Type</option>
+                <option title='markers' value="scatter">Scatter</option>
+                <option title='lines' value="line">Line</option>
+                <option title='lines' value="bar">Bar</option>
+                <option value="choropleth">Choropleth</option>
+                <option value="pie">Pie</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="col s2">
+        <div class="input-field col s12 ddMenus">
+            <select id="userOption1">
+                <option>Gender</option>
+                <option title='' value="">Total</option>
+                <option title='' value="">Female</option>
+                <option title='' value="">Male</option>
+
+            </select>
+        </div>
+    </div>
+
+    <div class="col s2">
+        <div class="input-field col s12 ddMenus">
+            <select id="userOption2">
+                <option>Year</option>
+                <option title='' value="">2017</option>
+                <option title='' value="">2016</option>
+                <option title='' value="">2015</option>
+                <option title='' value="">2014</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="col s2">
+        <div class="input-field col s12 ddMenus">
+            <select id="userOption3">
+                <option>Income</option>
+                <option title='' value="">Below Poverty</option>
+                <option title='' value="">Above Poverty</option>
+            </select>
+        </div>
+    </div>
+    <div class="col s2">
+        <div class="input-field col s12 ddMenus">
+            <select id="userOption4">
+                <option>Education</option>
+                <option title='' value="">No High School Diploma</option>
+                <option title='' value="">High School Diploma</option>
+                                <option title='' value="">Some College</option>
+                                <option title='' value="">Bachelor's Degree or Above</option>
+
+
+            </select>
+        </div>
+    </div>
+</div>
+
+<div id="finalGraph" style="width:100%;"></div>
+<div id="choroDiv" style="width:100%;"></div>
+
+
+{% endblock %}
+

@@ -1,0 +1,80 @@
+/*Materialize dark grey #424242*/
+/*materialize light grey #e0e0e0*/
+/*materialize med grey #616161*/
+
+body {
+    background-color: white;
+    color: #424242;
+    font-family: 'Roboto', sans-serif;
+}
+header {
+    margin-top: 5%;
+}
+
+
+nav {
+    margin-bottom: 3%;
+}
+
+/**************************************DROP DOWNS***************************************/
+.ddMenus {
+    /*background-color: #666;*/
+    background-color:white;
+    width: 25%;
+    padding: 2%;
+    margin-top: 1%;
+    color: red !important;
+}
+
+.chartMenu {
+    background-color: #e0e0e0;
+}
+
+/*changes the color of the list contents*/
+ul.dropdown-content.select-dropdown li span {
+    color: #616161;
+}
+
+
+
+/**************************************EXTRA***************************************/
+.brand-logo {
+    margin-left: 4%;
+}
+#circle{
+    width: 80px;
+    height: 80px;
+    display: inline-block;
+    border-radius: 50%;
+    text-align: center;
+    margin: 5%;
+}
+
+
+/**************************************BOOTSTRAP NAVIGATION***************************************/
+/*.navbar {*/
+    /*padding: 2%;*/
+/*}*/
+
+
+/*.btn {*/
+    /*background-color: #666;*/
+    /*border: none;*/
+/*}*/
+
+/*.btn:hover {*/
+    /*background-color: white;*/
+    /*color: #666;*/
+/*}*/
+/*.navbar-custom {*/
+    /*background-color:white;*/
+    /*color: #666;*/
+/*}*/
+
+/*.navbar-custom:hover {*/
+    /*color: #666;*/
+/*}*/
+
+
+
+
