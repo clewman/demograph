@@ -1,0 +1,46 @@
+{% extends 'charts/base.html' %}
+
+{% block content %}
+
+<div class="homeStyles">
+    <div class="row">
+        <div class="col s10 m6">
+            <h3>About Demograph</h3>
+        </div>
+        <div class="col s10 m6 socialMedia">
+            <h4><a href="https://twitter.com/demograph3" target="_blank">
+            <i class="fab fa-twitter socMedia red-text"></i></a>
+            <a href="https://www.linkedin.com/in/cheryl-lewman-58241066/" target="_blank">
+                <i class="fab fa-linkedin-in socMedia red-text"></i>
+            </a>
+                <a href="https://gist.github.com/clewman" target="_blank">
+            <i class="fab fa-github socMedia red-text"></i>
+                </a>
+                <a href="https://gist.github.com/clewman" target="_blank">
+                    <i class="fab fa-codepen socMedia red-text"></i></a>
+            </h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col m5 s10"><p>Demograph is Cheryl Lewman's Capstone Project, a culmination of
+        twelve weeks of intense code school bootcamp at PDX Code Guild. It was intended to
+        show a visual of the disparity between education and income. The United States provides
+        a comprehensive data set called the American Community Survey, ACS. In addition to displaying education, gender, and income, this
+        project will eventually include many more data sets from the ACS.</p></div>
+        <div class="col m1 s0"></div>
+        <div class="col m5 s10"><p>This project uses Django, which connects the database, SQLite,
+        with Python and the frontend. The ACS API was used to populate the database. Plot.ly for Python was used to display the graphs, using PANDAS and
+            Numpy. It also makes use of the typical frontend tools such
+            as: JavaScript, CSS, HTML5, and Materialize.</p><p>You can find Cheryl's portfolio here: <a href="http://www.cheryllewman.com" target="_blank">www.cheryllewman.com</a></p></div>
+    </div>
+    <div class="row">
+        <div class="col s4"></div>
+        <div class="col s5"> <a href="{% url 'charts:graphs'  %}">
+            <btn class="waves-effect waves-light btn-large"><h5>Create a Graph</h5></btn>
+            </a>
+</div>
+        <div class="col s3"></div>
+    </div>
+</div>
+
+{% endblock %}

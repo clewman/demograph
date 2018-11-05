@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django_plotly_dash.apps.DjangoPlotlyDashConfig',
+    'rest_framework',
 
     'charts.apps.ChartsConfig',
     'django.contrib.admin',
