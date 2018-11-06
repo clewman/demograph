@@ -3,7 +3,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Demograph</title>
+    <link rel="shortcut icon" type="image/png" href="{{STATIC_URL}}/favicon.ico"/>
+
+    <!--materialize-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
@@ -14,28 +18,43 @@
     <!--google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
+    <!--ajax-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+
+    <!--font awesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 </head>
+
 
 <body>
 <header>
-  <nav>
-    <div class="nav-wrapper grey darken-3">
-      <a href="#" class="brand-logo">Demograph</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="sass.html">Home</a></li>
-        <li><a href="badges.html">Info</a></li>
-        <li><a href="collapsible.html">Something Else</a></li>
-      </ul>
-    </div>
-  </nav>
+    <nav>
+        <div class="nav-wrapper grey darken-3">
+            <a href="#" class="brand-logo">Demograph</a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="{% url 'charts:index'  %}">Home</a></li>
+                <li><a href="{% url 'charts:graphs'  %}">Graph</a></li>
+                <li><a href="{% url 'charts:about'  %}">About</a></li>
+            </ul>
+        </div>
+    </nav>
+    <ul class="sidenav" id="mobile-demo">
+        <li><a href="{% url 'charts:index'  %}">Home</a></li>
+        <li><a href="{% url 'charts:graphs'  %}">Graph</a></li>
+        <li><a href="{% url 'charts:about'  %}">About</a></li>
+    </ul>
 </header>
 
 <!--<p class="flow-text">test for mobile</p>-->
-<div class="container">
-    {% block content %}
-    {% endblock %}
-
+<div class="mainContainer">
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
 </div>
+
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -46,10 +65,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
 <script src="{% static 'charts/chart.js' %}"></script>
+<script src="{% static 'charts/choropleth.js' %}"></script>
 
 <script src="{% static 'charts/base.js' %}"></script>
 <script src="{% static 'charts/userOption1.js' %}"></script>
-<!--<script src="{% static 'charts/circle.js' %}"></script>-->
 </body>
 
 </html>

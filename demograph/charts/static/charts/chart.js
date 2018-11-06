@@ -13,45 +13,59 @@ chart_type_ddl.onchange = function () {
 }
 
 
+
 function myFunction(type, mode) {
 
     if (type === 'choropleth') {
 
+        Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/2011_us_ag_exports.csv', function(err, rows){
+      function unpack(rows, key) {
+          return rows.map(function(row) { return row[key]; });
+      }
 
-    Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/2010_alcohol_consumption_by_country.csv', function (err, rows) {
-        function unpack(rows, key) {
-            return rows.map(function (row) {
-                return row[key];
-            });
-        }
-
-        console.log(unpack(rows, 'postal'));
-        var data = [{
-            type: 'choropleth',
-            locationmode: 'country names',
-            locations: unpack(rows, 'location'),
-            z: unpack(rows, 'alcohol'),
-            text: unpack(rows, 'location'),
-            autocolorscale: true
-        }];
-
-        var layout = {
-            title: 'Pure alcohol consumption<br>among adults (age 15+) in 2010',
-            geo: {
-                projection: {
-                    type: 'robinson'
-                }
+ var data = [{
+              type: 'choropleth',
+              locationmode: 'USA-states',
+              locations: unpack(rows, 'code'),
+              z: unpack(rows, 'total exports'),
+              text: unpack(rows, 'state'),
+              zmin: 0,
+              zmax: 17000,
+              colorscale: [
+                [0, 'rgb(242,240,247)'], [0.2, 'rgb(218,218,235)'],
+                [0.4, 'rgb(188,189,220)'], [0.6, 'rgb(158,154,200)'],
+                [0.8, 'rgb(117,107,177)'], [1, 'rgb(84,39,143)']
+              ],
+            colorbar: {
+              title: 'Millions USD',
+              thickness: 0.2
+            },
+            marker: {
+              line:{
+                color: 'rgb(255,255,255)',
+                width: 2
+              }
             }
-        };
-        Plotly.plot(finalGraph, data, layout, {showLink: false});
-    });
+          }];
+
+console.log(data.locations);
+  var layout = {
+          title: '2011 US Agriculture Exports by State',
+          geo:{
+            scope: 'usa',
+            showlakes: true,
+            lakecolor: 'rgb(255,255,255)'
+          }
+      };
+      Plotly.plot(finalGraph, data, layout, {showLink: false});
+  });
 
 }
     else if (type == 'bar' || type == 'line' || type == 'scatter') {
         trace1 = {
             type: type,
-            x: [1, 2, 3, 4],
-            y: [10, 15, 13, 17],
+            x: x, //x is gender
+            y: y, //y is income level
             mode: mode,
             name: 'Red',
             line: {
@@ -63,8 +77,8 @@ function myFunction(type, mode) {
 
         trace2 = {
             type: type,
-            x: [1, 2, 3, 4],
-            y: [12, 9, 15, 12],
+            x: x,
+            y: y,
             mode: mode,
             name: 'Blue',
             line: {
@@ -97,11 +111,4 @@ function myFunction(type, mode) {
 }
 
 
-
-
-// to make it editable with plotly on their site, always shows
-// var layout = {
-//     title: 'Always Display the Modebar',
-//     showlegend: false};
-// Plotly.newPlot('myDiv', data, layout, {displayModeBar: true});
 
