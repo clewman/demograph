@@ -17,6 +17,10 @@ class Command(BaseCommand):
         # County Name/State Abbreviation
         fips = df_sample['FIPS'].tolist()
 
+        print(fips)
+        # i dont think those are my fips
+        
+
         county_names = []
         state_abbrs = []
         county_data = df_sample['County Name/State Abbreviation'].tolist()
@@ -33,11 +37,16 @@ class Command(BaseCommand):
             acs_counties.append(e.name)
         # print(acs_counties)
 
+        fips_index = []
         for x in county_names:
             if x in acs_counties:
-                print(x)
+                fips_index.append(f'{county_names.index(x)} + {x}')
             else:
                 pass
+        # print(fips_index)
+        # I think the loop above goes through countynames, if it exists in acscounties, it
+        # returns the index position. Then prints the index position with the countyname(x)
+        # associated with it.
 
         # x =set(acs_counties) & set(county_names)
         # print(x)
