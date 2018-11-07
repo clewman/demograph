@@ -26,6 +26,7 @@ class IncomeLevel(models.Model):
 
 class State(models.Model):
     name = models.CharField(max_length=200)
+    abbr = models.CharField(max_length=5)
 
     def __str__(self):
         return self.name
@@ -34,6 +35,7 @@ class State(models.Model):
 class County(models.Model):
     state = models.ForeignKey(State, on_delete=models.PROTECT)
     name = models.CharField(max_length=200)
+    fips = models.CharField(max_length=50)
 
     def __str__(self):
         return self.state.name + ' - ' + self.name

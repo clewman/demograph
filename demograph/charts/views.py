@@ -60,31 +60,28 @@ def get_data(request):
 
 
 def get_plotly_url(request):
-    # gender_id = request.GET['gender_id']
-    # education_level_id = request.GET['education_level_id']
-    # income_level_id = request.GET['income_level_id']
-    # year = request.GET['year']
-    #
-    # items = IncomeData.objects.all()
-    # if gender_id != '':
-    #     items = items.filter(gender_id=gender_id)
-    # if year != '':
-    #     items = items.filter(year=year)
-    # if income_level_id != '':
-    #     items = items.filter(income_level_id=income_level_id)
-    # if education_level_id != '':
-    #     items = items.filter(education_level_id=education_level_id)
-    #
-    # items = items[:1000]
-    #
-    # data = []
-    # for item in items:
-    #      data.append(item.to_dictionary())
-    #
-    #
-    #
-    # # df = pd.read_csv('2011_us_ag_exports.csv')
-    # df = data
+    gender_id = request.GET.get('gender_id', '')
+    education_level_id = request.GET.get('education_level_id', '')
+    income_level_id = request.GET.get('income_level_id', '')
+    year = request.GET.get('year', '')
+
+    items = IncomeData.objects.all()
+    if gender_id != '':
+        items = items.filter(gender_id=gender_id)
+    if year != '':
+        items = items.filter(year=year)
+    if income_level_id != '':
+        items = items.filter(income_level_id=income_level_id)
+    if education_level_id != '':
+        items = items.filter(education_level_id=education_level_id)
+
+    items = items[:1000]
+
+    data = []
+    for item in items:
+        data.append(item.to_dictionary())
+
+    # df = pd.read_csv('2011_us_ag_exports.csv')
     # for col in df.columns:
     #     df[col] = df[col].astype(str)
     #
@@ -121,11 +118,11 @@ def get_plotly_url(request):
     #         showlakes=True,
     #         lakecolor='rgb(255, 255, 255)'),
     # )
-    #
-    # fig = dict(data=data, layout=layout)
-    # url = py.plot(fig, filename='d3-cloropleth-map')
-    url = 'http://www.google.com'
-    return HttpResponse(response, 'url')
+
+    fig = dict(data=data, layout=layout)
+    url = py.plot(fig, filename='d3-cloropleth-map')
+    # url = 'http://www.google.com'
+    return HttpResponse(url)
 
 
 
