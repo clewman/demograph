@@ -17,10 +17,6 @@ class Command(BaseCommand):
         # County Name/State Abbreviation
         fips = df_sample['FIPS'].tolist()
 
-        print(fips)
-        # i dont think those are my fips
-
-
         county_names = []
         state_abbrs = []
         county_data = df_sample['County Name/State Abbreviation'].tolist()
@@ -37,7 +33,7 @@ class Command(BaseCommand):
                     break
 
 
-        # checks for county names that didn't make it into the above'
+        # checks for county names that didn't make it into the above
         # for county in County.objects.all():
         #     if county.fips.strip() == '':
         #         print(f'{county.id} {county.state.abbr} {county.name}')

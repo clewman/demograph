@@ -5,11 +5,15 @@ from .models import IncomeData, Gender, EducationLevel, IncomeLevel
 import json
 from django.http import JsonResponse
 import plotly.plotly as py
+import plotly.figure_factory as ff
+
 import plotly.graph_objs as go
 import plotly
 import pandas as pd
 import resource
 import numpy as np
+
+import time
 
 
 def index(request):
@@ -51,8 +55,6 @@ def get_data(request):
     if education_level_id != '':
         items = items.filter(education_level_id=education_level_id)
 
-    items = items[:1000]
-
     data = []
     for item in items:
          data.append(item.to_dictionary())
@@ -75,53 +77,57 @@ def get_plotly_url(request):
     if education_level_id != '':
         items = items.filter(education_level_id=education_level_id)
 
-    items = items[:1000]
 
-    data = []
+    # gender_id is '', so all genders
+    # 23904823094, baker county, IL, male, 56
+    # 23904823094, baker county, IL, female, 102
+
+    # sum up all rows for a given county
+    # start with an empty 'output' list
+    # loop over all the items
+    # if there already exists an item in the output list with the given county id
+    # then add the population to it
+    # otherwise add it
+
+    counter = 0
+    output = {}
     for item in items:
-        data.append(item.to_dictionary())
+        if item.county.fips == '':
+            continue
 
-    # df = pd.read_csv('2011_us_ag_exports.csv')
-    # for col in df.columns:
-    #     df[col] = df[col].astype(str)
-    #
-    # scl = [[0.0, 'rgb(242,240,247)'], [0.2, 'rgb(218,218,235)'], [0.4, 'rgb(188,189,220)'], \
-    #        [0.6, 'rgb(158,154,200)'], [0.8, 'rgb(117,107,177)'], [1.0, 'rgb(84,39,143)']]
-    #
-    # df['text'] = df['state'] + '<br>' + \
-    #              'Beef ' + df['beef'] + ' Dairy ' + df['dairy'] + '<br>' + \
-    #              'Fruits ' + df['total fruits'] + ' Veggies ' + df['total veggies'] + '<br>' + \
-    #              'Wheat ' + df['wheat'] + ' Corn ' + df['corn']
-    #
-    # data = [dict(
-    #     type='choropleth',
-    #     colorscale=scl,
-    #     autocolorscale=False,
-    #     locations=df['code'],
-    #     z=df['total exports'].astype(float),
-    #     locationmode='USA-states',
-    #     text=df['text'],
-    #     marker=dict(
-    #         line=dict(
-    #             color='rgb(255,255,255)',
-    #             width=2
-    #         )),
-    #     colorbar=dict(
-    #         title="Millions USD")
-    # )]
-    #
-    # layout = dict(
-    #     title='2011 US Agriculture Exports by State<br>(Hover for breakdown)',
-    #     geo=dict(
-    #         scope='usa',
-    #         projection=dict(type='albers usa'),
-    #         showlakes=True,
-    #         lakecolor='rgb(255, 255, 255)'),
-    # )
+        if item.county.fips in output:
+            output[item.county.fips] += item.population
+        else:
+            output[item.county.fips] = item.population
 
-    fig = dict(data=data, layout=layout)
-    url = py.plot(fig, filename='d3-cloropleth-map')
-    # url = 'http://www.google.com'
+        if counter % 10 == 0:
+            print(f'{round(counter/len(items)*100,2)}%')
+        counter += 1
+
+    fips = list(output.keys())
+    values = list(output.values())
+
+    top_populations = list(sorted(values, reverse=True))[:20]
+    max_value = sum(top_populations) / len(top_populations) / 10
+
+    colorscale = ["#f7fbff", "#ebf3fb", "#deebf7", "#d2e3f3", "#c6dbef", "#b3d2e9", "#9ecae1",
+                  "#85bcdb", "#6baed6", "#57a0ce", "#4292c6", "#3082be", "#2171b5", "#1361a9",
+                  "#08519c", "#0b4083", "#08306b"]
+    endpts = list(np.linspace(0, max_value, len(colorscale) - 1))
+
+    # fips = df_sample['FIPS'].tolist()
+    # values = df_sample['Unemployment Rate (%)'].tolist()
+    #
+    fig = ff.create_choropleth(
+        fips=fips, values=values, scope=['usa'],
+        binning_endpoints=endpts, colorscale=colorscale,
+        show_state_data=False,
+        show_hover=True, centroid_marker={'opacity': 0},
+        asp=2.9, title='USA by Unemployment %',
+        legend_title='% unemployed',
+    )
+
+    url = py.plot(fig, filename='choropleth_full_usa' + str(hash(time.time())), auto_open=False)
     return HttpResponse(url)
 
 

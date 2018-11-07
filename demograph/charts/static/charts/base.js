@@ -7,6 +7,6 @@ document.addEventListener('DOMContentLoaded', function() {
 // navbar hamburger
   document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.sidenav');
-    var instances = M.Sidenav.init(elems, options);
+    var instances = M.Sidenav.init(elems, {});
   });
 

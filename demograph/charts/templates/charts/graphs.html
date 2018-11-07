@@ -1,11 +1,15 @@
 {% extends 'charts/base.html' %}
 
 {% block content %}
+<div id="load_icon">
+    <img src="https://i.imgur.com/fZDdJHx.gif" />
+</div>
 <div class="chartContainer">
     <div class="row">
+        <div class="col s10 m5 l1"><p></p></div>
+
         <div class="col s10 m5 l2">
             <div class="input-field  ddMenus chartMenu">
-                <!--<i class="material-icons prefix graphArrow">expand_more</i>-->
                 <select id="chart_type_ddl">
                     <option>Graph Type </option>
                     <option title='markers' value="scatter">Scatter</option>
@@ -43,7 +47,7 @@
         <div class="col s10 m5 l2">
             <div class="input-field  ddMenus">
                 <select id="income">
-                    <option value="">Any Income Level</option>
+                    <option value="">Income Level</option>
                     {% for income_level in income_levels %}
                     <option value="{{income_level.id}}">{{income_level.name}}</option>
                     {% endfor %}
@@ -62,9 +66,10 @@
                 </select>
             </div>
         </div>
+        <div class="col s10 m5 l1"><p></p></div>
 
     </div>
-    <iframe src="{% url 'charts:get_plotly_url' %}">
+    <iframe id="graph_iframe" src="">
         <p>Your browser does not support iframes.</p>
     </iframe>
 
@@ -80,7 +85,7 @@
 
 
     function getData() {
-        let url = "{% url 'charts:get_data' %}"
+        let url = "{% url 'charts:get_plotly_url' %}"
 
         let gender_id = gender_input.options[gender_input.selectedIndex].value
         let education_level_id = education_level.options[education_level.selectedIndex].value
@@ -95,17 +100,19 @@
                 income_level_id: income_level_id
             }
         })
-            .then(function (response) {
-                console.log(response.data)
-                // updateList()
-
-            })
+        .then(function (response) {
+            document.querySelector('#graph_iframe').src = response.data
+        })
     }
 
     gender_input.onchange = getData
     income_level.onchange = getData
     education_level.onchange = getData
     year_input.onchange = getData
+
+
+    getData()
+
 </script>
 
 {% endblock %}

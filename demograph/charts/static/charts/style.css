@@ -29,63 +29,28 @@ iframe {
 }
 
 /**************************************DROP DOWNS***************************************/
-/*.ddMenus {*/
-/*background-color: #666;*/
-/*background-color:white;*/
-/*width: 25%;*/
-/*padding: 2%;*/
-/*margin-top: 1%;*/
-/*display:inline-block;*/
-/*margin: auto;*/
-/*}*/
 
-/*changes the color of the list contents*/
-/*ul.dropdown-content.select-dropdown li span {*/
-    /*color: #616161;*/
-
-/*}*/
-
-/*.select-wrapper input.select-dropdown {*/
-    /*margin-left: 50%;*/
-    /*text-align: center;*/
-/*}*/
-
-/*input.select-dropdown {*/
+input.select-dropdown {
     /*color: red;*/
-    /*border-bottom: 0px solid white !important;*/
-/*}*/
-
-/*.dropdown-content li > span {*/
-    /*color: #424242;*/
-/*}*/
-
-/*!*.select-wrapper .caret {*!*/
-    /*!*fill: red;*!*/
-    /*!*display: none !important;*!*/
-/*!*}*!*/
-/*.select-wrapper .caret {*/
-    /*fill: red;*/
-    /*margin-top: 20%;*/
-/*}*/
-
-/*.graphArrow {*/
-    /*align:right;*/
-    /*text-align: right;*/
-    /*margin-left: 30%;*/
-
-    /*width: 100px;*/
-    /*height: 50px;*/
-    /*border: 3px solid pink;*/
-
-/*}*/
-
-.flexbox {
-  display: flex;
-  flew-wrap: wrap;
-  justify-content: center;
-  align-items: center;
+    border-bottom: 0px solid white !important;
 }
+
+.dropdown-content li > span {
+    color: #424242;
+}
+
+.select-wrapper .caret {
+    fill: red;
+}
+
+
+
 /**************************************EXTRA***************************************/
+#load_icon img{
+    width: 250px;
+    
+}
+
 .homeStyles {
     font-size: 1.25em;
     margin: 0 -17%;
