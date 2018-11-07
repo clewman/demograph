@@ -19,7 +19,7 @@ class Command(BaseCommand):
 
         print(fips)
         # i dont think those are my fips
-        
+
 
         county_names = []
         state_abbrs = []
@@ -28,38 +28,17 @@ class Command(BaseCommand):
             state_abbrs.append(county_data[i][len(county_data[i]) - 2:])
             county_names.append(county_data[i][:len(county_data[i]) - 4])
 
-        # for i in range(len(fips)):
-        #     print(f'{state_abbrs[i]} {county_names[i]} {fips[i]}')
+        # compares county names from two lists and returns the fips
+        for county in County.objects.all():
+            for i in range(len(fips)):
+                if county.state.abbr == state_abbrs[i] and county.name == county_names[i]:
+                    county.fips = fips[i]
+                    county.save()
+                    break
 
 
-        acs_counties = []
-        for e in County.objects.all():
-            acs_counties.append(e.name)
-        # print(acs_counties)
-
-        fips_index = []
-        for x in county_names:
-            if x in acs_counties:
-                fips_index.append(f'{county_names.index(x)} + {x}')
-            else:
-                pass
-        # print(fips_index)
-        # I think the loop above goes through countynames, if it exists in acscounties, it
-        # returns the index position. Then prints the index position with the countyname(x)
-        # associated with it.
-
-        # x =set(acs_counties) & set(county_names)
-        # print(x)
-                # if not County.objects.filter(fips=fips).exists():
-                #     fips = County(fips=fips)
-                #     fips.save()
-                            # county, created = County.objects.get_or_create(fips=fips)
-
-        # loop over the instances of County
-        # for each County, loop over the records in fips
-        # if the County and state abbreviation match
-        # set the fips on the County and save it
-
-                # state, created = State.objects.get_or_create(name=state_name)
-
+        # checks for county names that didn't make it into the above'
+        # for county in County.objects.all():
+        #     if county.fips.strip() == '':
+        #         print(f'{county.id} {county.state.abbr} {county.name}')
 
