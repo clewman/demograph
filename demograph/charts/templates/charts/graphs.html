@@ -1,17 +1,13 @@
 {% extends 'charts/base.html' %}
 
 {% block content %}
-<div id="load_icon">
-    <img src="https://i.imgur.com/fZDdJHx.gif" />
-</div>
+
 <div class="chartContainer">
     <div class="row">
-        <div class="col s10 m5 l1"><p></p></div>
-
         <div class="col s10 m5 l2">
             <div class="input-field  ddMenus chartMenu">
                 <select id="chart_type_ddl">
-                    <option>Graph Type </option>
+                    <option>Graph Type</option>
                     <option title='markers' value="scatter">Scatter</option>
                     <option title='lines' value="line">Line</option>
                     <option title='lines' value="bar">Bar</option>
@@ -66,12 +62,26 @@
                 </select>
             </div>
         </div>
-        <div class="col s10 m5 l1"><p></p></div>
+        <div class="col s10 m5 l2">
+            <btn class="waves-effect waves-light btn-small"><p>Create</p></btn>
+</div>
 
     </div>
-    <iframe id="graph_iframe" src="">
-        <p>Your browser does not support iframes.</p>
-    </iframe>
+    <div id="i_frame_div">
+        <div >
+            <img id="loading_icon" src="https://i.imgur.com/fZDdJHx.gif" style="display:none; position:absolute;
+    bottom: 25%;
+    right: 40%;
+    width: 25%;"/><br><p id="loading_word" style="display:none; position:absolute;
+    bottom: 25%;
+    right: 40%;
+    width: 25%;">loading</p>
+        </div>
+        <iframe id="graph_iframe" src="">
+            <p>Your browser does not support iframes.</p>
+        </iframe>
+    </div>
+
 
     <!--<div id="finalGraph" style="width:100%;"></div>-->
     <!--<div id="choroDiv" style="width:100%;"></div>-->
@@ -87,22 +97,29 @@
     function getData() {
         let url = "{% url 'charts:get_plotly_url' %}"
 
+        document.querySelector('#loading_icon').style.display = '';
+        document.querySelector('#loading_word').style.display = '';
+
         let gender_id = gender_input.options[gender_input.selectedIndex].value
         let education_level_id = education_level.options[education_level.selectedIndex].value
         let year_id = year_input.options[year_input.selectedIndex].value
         let income_level_id = income_level.options[income_level.selectedIndex].value
-
+        console.log('gettin the url')
         axios.get(url, {
             params: {
                 gender_id: gender_id,
                 education_level_id: education_level_id,
                 year: year_id,
-                income_level_id: income_level_id
+                income_level_id: income_level_id,
             }
         })
-        .then(function (response) {
-            document.querySelector('#graph_iframe').src = response.data
-        })
+            .then(function (response) {
+                document.querySelector('#graph_iframe').src = response.data
+                document.querySelector('#loading_icon').style.display = 'none';
+                document.querySelector('#loading_word').style.display = 'none';
+
+
+            })
     }
 
     gender_input.onchange = getData
@@ -110,8 +127,8 @@
     education_level.onchange = getData
     year_input.onchange = getData
 
-
-    getData()
+    // make sure to turn below back on- just turned off for testing
+    // getData()
 
 </script>
 

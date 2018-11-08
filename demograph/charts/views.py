@@ -110,9 +110,8 @@ def get_plotly_url(request):
     top_populations = list(sorted(values, reverse=True))[:20]
     max_value = sum(top_populations) / len(top_populations) / 10
 
-    colorscale = ["#f7fbff", "#ebf3fb", "#deebf7", "#d2e3f3", "#c6dbef", "#b3d2e9", "#9ecae1",
-                  "#85bcdb", "#6baed6", "#57a0ce", "#4292c6", "#3082be", "#2171b5", "#1361a9",
-                  "#08519c", "#0b4083", "#08306b"]
+    colorscale = ["#fffcf2", "#fff6d8", "#fff1bf", "#ffeba5", "#ffe68b", "#ffe072", "#ffdb58", "#ffd63f", "#ffd025", "#ffcb0c",
+                  "#f2be00", "#d8aa00", "#bf9600", "#a68200", "#8d6e00", "#735a00", "#5a4600"]
     endpts = list(np.linspace(0, max_value, len(colorscale) - 1))
 
     # fips = df_sample['FIPS'].tolist()

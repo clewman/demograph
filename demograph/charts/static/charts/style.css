@@ -26,6 +26,7 @@ a {
 iframe {
     width: 100%;
     height: 450px;
+    background-color:white;
 }
 
 /**************************************DROP DOWNS***************************************/
@@ -46,10 +47,23 @@ input.select-dropdown {
 
 
 /**************************************EXTRA***************************************/
-#load_icon img{
-    width: 250px;
-    
+#i_frame_div {
+    position:relative;
 }
+/*#loading_icon img{*/
+    /*position:absolute;*/
+    /*bottom: 25%;*/
+    /*right: 40%;*/
+    /*width: 25%;*/
+    /*!*display:none;*!*/
+/*}*/
+
+/*#loading_icon p {*/
+    /*position:absolute;*/
+    /*bottom: 20%;*/
+    /*right: 40%;*/
+    /*!*display:none;*!*/
+/*}*/
 
 .homeStyles {
     font-size: 1.25em;
@@ -118,4 +132,13 @@ input.select-dropdown {
     background-color: darkred;
 }
 
+.btn-small {
+    height: 30%;
+    background-color: red;
+}
+
+.btn-small:hover {
+    height: 80%;
+    background-color: darkred;
+}
 
