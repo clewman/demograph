@@ -61,3 +61,11 @@ class IncomeData(models.Model):
                 #'population': self.population,
                 #'county': self.county.name
         }
+
+class SystemParameter(models.Model):
+    name = models.CharField(max_length=200)
+    value = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f'{self.name}: {self.value}'
+
