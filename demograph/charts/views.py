@@ -6,13 +6,11 @@ import json
 from django.http import JsonResponse
 import plotly.plotly as py
 import plotly.figure_factory as ff
-
+import plotly.plotly as py
 import plotly.graph_objs as go
-import plotly
 import pandas as pd
 import resource
 import numpy as np
-
 import time
 
 
@@ -106,11 +104,8 @@ def get_plotly_url(request):
     # top_populations = list(sorted(values, reverse=True))[:20]
     # max_value = sum(top_populations) / len(top_populations) / 10
 
-    max_value = 200000000
-
     colorscale = ["#f4eaef", "#ead6e0", "#e0c1d1", "#d6adc1", "#cc99b2", "#c184a3", "#b77093", "#ad5b84", "#a34775", "#993366",
                   "#892d5b", "#7a2851", "#6b2347", "#5b1e3d", "#4c1933", "#2d0f1e", "#0f050a"]
-    endpts = list(np.linspace(0, max_value, len(colorscale) - 1))
 
     if gender_id == '':
         chart_title = 'All Genders, '
@@ -129,11 +124,18 @@ def get_plotly_url(request):
     else:
         chart_title += IncomeLevel.objects.get(pk=income_level_id).name
 
+    # endpoints colors
+    # endpts = list(np.linspace(0, max_value, len(colorscale) - 1))
+    average_population = sum(item.population for item in items) / len(items)
+    if len(items) < average_population:
+        endpts = [50, 100, 250, 500, 750, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 7500, 10000, 50000, 100000]
+    else:
+        endpts = [1000, 25000, 35000, 40000, 50000, 75000, 125000, 150000, 200000, 300000, 500000, 1000000, 2000000, 5000000]
+
 
     fig = ff.create_choropleth(
         fips=fips, values=values, scope=['usa'],
-        # binning_endpoints=endpts, colorscale=colorscale,
-        binning_endpoints=[1000, 2500, 5000, 10000, 15000, 25000, 50000, 100000, 150000, 200000, 300000, 500000, 1000000, 1500000, 2000000, 5000000], colorscale=colorscale,
+        binning_endpoints=endpts, colorscale=colorscale,
         show_state_data=False,
         show_hover=True, centroid_marker={'opacity': 0},
         asp=2.9, title=chart_title,
@@ -153,9 +155,6 @@ def get_plotly_url(request):
     url = py.plot(fig, filename='choropleth_full_usa' + str(counter), auto_open=False)
     print(url)
     return HttpResponse(url)
-
-
-
 
 
 

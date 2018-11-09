@@ -20,7 +20,7 @@ nav {
 }
 
 a {
-    color: red;
+    color: #993366;
 }
 
 iframe {
@@ -41,7 +41,7 @@ input.select-dropdown {
 }
 
 .select-wrapper .caret {
-    fill: red;
+    fill: #993366;
 }
 
 .dd_btn_container {
@@ -136,7 +136,7 @@ input.select-dropdown {
 
 .btn-large {
     height: 100%;
-    background-color: red;
+    background-color: #993366;
 }
 
 .btn-large:hover {
@@ -145,7 +145,7 @@ input.select-dropdown {
 }
 
 .btn {
-    background-color: red;
+    background-color: #993366;
 }
 
 .btn:hover {
