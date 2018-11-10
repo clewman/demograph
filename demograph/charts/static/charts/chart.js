@@ -4,18 +4,17 @@
 // see about doing an "if scatter: change marker size" to make scatter plots bigger but not anything else
 
 
-
 let chart_type_ddl = document.querySelector('#chart_type_ddl')
 chart_type_ddl.onchange = function () {
     let type = chart_type_ddl.options[chart_type_ddl.selectedIndex].value
     let mode = chart_type_ddl.options[chart_type_ddl.selectedIndex].title
-    myFunction(type, mode)
+    let a = []
+    myFunction(type, mode, a)
 }
 
 
 
-function myFunction(type, mode) {
-
+function myFunction(type, mode, a) {
     if (type === 'choropleth') {
 
         Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/2011_us_ag_exports.csv', function(err, rows){
@@ -62,10 +61,12 @@ console.log(data.locations);
 
 }
     else if (type == 'bar' || type == 'line' || type == 'scatter') {
+
+
         trace1 = {
             type: type,
-            x: x, //x is gender
-            y: y, //y is income level
+            x: x,
+            y: y,
             mode: mode,
             name: 'Red',
             line: {
@@ -96,9 +97,9 @@ console.log(data.locations);
         };
     }
 
-    else if (type == 'pie') { //pie
+    else if (type == 'pie') {
         var data = [{
-            values: [19, 26, 55],
+            values: a,
             labels: ['Residential', 'Non-Residential', 'Utility'],
             type: type
         }];

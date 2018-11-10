@@ -9,4 +9,6 @@ urlpatterns = [
     path('get_plotly_url/', views.get_plotly_url, name='get_plotly_url'),
     path('', views.index, name='index'),
     path('charts/about/', views.about, name='about'),
+    path('charts/morecharts/', views.morecharts, name='morecharts'),
+
 ]

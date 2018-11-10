@@ -1,0 +1,142 @@
+{% extends 'charts/base.html' %}
+
+{% block content %}
+
+<div class="chartContainer">
+
+    <div class="row">
+        <div class="col s10 m5 l2">
+            <div class="input-field  ddMenus chartMenu">
+                <select id="chart_type_ddl">
+                    <option>Graph Type</option>
+                    <option title='markers' value="scatter">Scatter</option>
+                    <option title='lines' value="line">Line</option>
+                    <option title='lines' value="bar">Bar</option>
+                    <option value="choropleth">Choropleth</option>
+                    <option value="pie">Pie</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col s10 m5 l2">
+            <div class="input-field ddMenus">
+                <select id="gender">
+                    <option value="">Any Gender</option>
+                    {% for gender in genders %}
+                    <option value="{{gender.id}}">{{gender.name}}</option>
+                    {% endfor %}ß
+
+                </select>
+            </div>
+        </div>
+
+        <div class="col s10 m5 l2">
+            <div class="input-field ddMenus">
+                <select id="year">
+                    <option value="">Any Year</option>
+                    {% for year in years %}
+                    <option value="{{year}}">{{year}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="col s10 m5 l2">
+            <div class="input-field  ddMenus">
+                <select id="income">
+                    <option value="">Income Level</option>
+                    {% for income_level in income_levels %}
+                    <option value="{{income_level.id}}">{{income_level.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="col s10 m5 l2">
+            <div class="input-field  ddMenus">
+                <select id="education">
+                    <option value="">Any Education</option>
+                    {% for education_level in education_levels %}
+                    <option value="{{education_level.id}}">{{education_level.name}}</option>
+                    {% endfor %}
+
+                </select>
+            </div>
+        </div>
+        <div class="col s10 m5 l2 dd_btn_container">
+            <!--button style id submit_button-->
+            <a id="create_graph_bt" class="waves-effect waves-light btn dd_btn">Create</a>
+        </div>
+
+    </div>
+
+
+    <div id="finalGraph" style="width:100%;"></div>
+    <div id="choroDiv" style="width:100%;"></div>
+
+    <script>
+
+        let create_graph_bt = document.querySelector('#create_graph_bt')
+        create_graph_bt.onclick = function() {
+
+            let url = "{% url 'charts:get_data' %}"
+
+            let year_input = document.querySelector('#year')
+            let gender_input = document.querySelector('#gender')
+            let income_level = document.querySelector('#income')
+            let education_level = document.querySelector('#education')
+            let gender_id = gender_input.options[gender_input.selectedIndex].value
+            let education_level_id = education_level.options[education_level.selectedIndex].value
+            let year_id = year_input.options[year_input.selectedIndex].value
+            let income_level_id = income_level.options[income_level.selectedIndex].value
+            axios.get(url, {
+                params: {
+                    gender_id: gender_id,
+                    education_level_id: education_level_id,
+                    year: year_id,
+                    income_level_id: income_level_id,
+                }
+            })
+            .then(function (response) {
+                console.log(response.data)
+                // use response.data to build your plotly chart
+
+                                var data = []
+
+                                for (let [key, value] of IncomeData.gender_id(response.data.name)) {
+                                    console.log(key, value);
+                                    var my_data = {
+                                        x: [],
+                                        y: [],
+                                        mode: 'markers',
+                                        type: 'scatter',
+                                        name: key,
+                                        text: [],
+                                        marker: { size: 12 }
+                                    }
+                                    for (j=0; j<value.length; j++) {
+                                      my_data.x.push(value[j].cards)
+                                      my_data.y.push(value[j].friends)
+                                      my_data.text.push(value[j].name)
+                                    };
+                                data.push(my_data)
+                                };
+                                console.log(my_data)
+                                var layout = {
+                                          xaxis: {
+                                            range: [0, 100]
+                                          },
+                                          yaxis: {
+                                            range: [0, 100]
+                                          },
+                                          title:'Compare Men and Women'};
+            })
+        }
+    </script>
+
+
+</div>
+
+
+{% endblock %}
+

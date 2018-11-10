@@ -20,6 +20,7 @@ class Command(BaseCommand):
             geography = 'county:*'
             dataset_name = '/acs1'
             url = f'https://api.census.gov/data/{year}{dataset_name}?get={variables}&for={geography}'
+
             urls.append((year, url))
             # print(url)
             # return
@@ -35,34 +36,34 @@ class Command(BaseCommand):
 
 
         subsets = [
-            {'IncomeLevel': 'Below Poverty', 'Gender': 'Male', 'EducationLevel': 'Less than hs', 'column_name': 'B17003_004E'},
-            {'IncomeLevel': 'Below Poverty', 'Gender': 'Male', 'EducationLevel': 'hs', 'column_name': 'B17003_005E'},
-            {'IncomeLevel': 'Below Poverty', 'Gender': 'Male', 'EducationLevel': 'some college', 'column_name': 'B17003_006E'},
-            {'IncomeLevel': 'Below Poverty', 'Gender': 'Male', 'EducationLevel': 'college',
+            {'IncomeLevel': 'Below Poverty', 'Gender': 'Male', 'EducationLevel': '< High School', 'column_name': 'B17003_004E'},
+            {'IncomeLevel': 'Below Poverty', 'Gender': 'Male', 'EducationLevel': 'High School', 'column_name': 'B17003_005E'},
+            {'IncomeLevel': 'Below Poverty', 'Gender': 'Male', 'EducationLevel': 'Some College', 'column_name': 'B17003_006E'},
+            {'IncomeLevel': 'Below Poverty', 'Gender': 'Male', 'EducationLevel': 'College',
              'column_name': 'B17003_007E'},
 
-            {'IncomeLevel': 'Below Poverty', 'Gender': 'Female', 'EducationLevel': 'Less than hs',
+            {'IncomeLevel': 'Below Poverty', 'Gender': 'Female', 'EducationLevel': '< High School',
              'column_name': 'B17003_009E'},
-            {'IncomeLevel': 'Below Poverty', 'Gender': 'Female', 'EducationLevel': 'hs', 'column_name': 'B17003_010E'},
-            {'IncomeLevel': 'Below Poverty', 'Gender': 'Female', 'EducationLevel': 'some college',
+            {'IncomeLevel': 'Below Poverty', 'Gender': 'Female', 'EducationLevel': 'High School', 'column_name': 'B17003_010E'},
+            {'IncomeLevel': 'Below Poverty', 'Gender': 'Female', 'EducationLevel': 'Some College',
              'column_name': 'B17003_011E'},
-            {'IncomeLevel': 'Below Poverty', 'Gender': 'Female', 'EducationLevel': 'college',
+            {'IncomeLevel': 'Below Poverty', 'Gender': 'Female', 'EducationLevel': 'College',
              'column_name': 'B17003_012E'},
 
-            {'IncomeLevel': 'At or Above Poverty', 'Gender': 'Male', 'EducationLevel': 'Less than hs',
+            {'IncomeLevel': 'Above Poverty', 'Gender': 'Male', 'EducationLevel': '< High School',
              'column_name': 'B17003_015E'},
-            {'IncomeLevel': 'At or Above Poverty', 'Gender': 'Male', 'EducationLevel': 'hs', 'column_name': 'B17003_016E'},
-            {'IncomeLevel': 'At or Above Poverty', 'Gender': 'Male', 'EducationLevel': 'some college',
+            {'IncomeLevel': 'Above Poverty', 'Gender': 'Male', 'EducationLevel': 'High School', 'column_name': 'B17003_016E'},
+            {'IncomeLevel': 'Above Poverty', 'Gender': 'Male', 'EducationLevel': 'Some College',
              'column_name': 'B17003_017E'},
-            {'IncomeLevel': 'At or Above Poverty', 'Gender': 'Male', 'EducationLevel': 'college',
+            {'IncomeLevel': 'Above Poverty', 'Gender': 'Male', 'EducationLevel': 'College',
              'column_name': 'B17003_018E'},
 
-            {'IncomeLevel': 'Below Poverty', 'Gender': 'Female', 'EducationLevel': 'Less than hs',
+            {'IncomeLevel': 'Above Poverty', 'Gender': 'Female', 'EducationLevel': '< High School',
              'column_name': 'B17003_020E'},
-            {'IncomeLevel': 'Below Poverty', 'Gender': 'Female', 'EducationLevel': 'hs', 'column_name': 'B17003_021E'},
-            {'IncomeLevel': 'Below Poverty', 'Gender': 'Female', 'EducationLevel': 'some college',
+            {'IncomeLevel': 'Above Poverty', 'Gender': 'Female', 'EducationLevel': 'High School', 'column_name': 'B17003_021E'},
+            {'IncomeLevel': 'Above Poverty', 'Gender': 'Female', 'EducationLevel': 'Some College',
              'column_name': 'B17003_022E'},
-            {'IncomeLevel': 'Below Poverty', 'Gender': 'Female', 'EducationLevel': 'college',
+            {'IncomeLevel': 'Above Poverty', 'Gender': 'Female', 'EducationLevel': 'College',
              'column_name': 'B17003_023E'},
 
         ]
