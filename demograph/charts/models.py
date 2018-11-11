@@ -49,6 +49,7 @@ class IncomeData(models.Model):
     year = models.IntegerField()
     county = models.ForeignKey(County, on_delete=models.PROTECT)
 
+
     def __str__(self):
         return self.education_level.name + ' - ' + self.gender.name + ' - ' + self.income_level.name + ' - ' + str(self.population) + ' - ' + str(self.year) + ' - ' + self.county.state.name + ' - ' + self.county.name
 

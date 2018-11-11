@@ -10,6 +10,7 @@ import plotly.plotly as py
 import plotly.graph_objs as go
 import plotly.plotly as py
 import plotly.graph_objs as go
+
 import pandas as pd
 import resource
 import numpy as np
@@ -148,10 +149,119 @@ def get_plotly_scatter_url(request):
     print(url)
     return HttpResponse(url)
 
-
-
 def get_plotly_url(request):
 
+    gender_id = request.GET.get('gender_id', '')
+    education_level_id = request.GET.get('education_level_id', '')
+    income_level_id = request.GET.get('income_level_id', '')
+    year = request.GET.get('year', '')
+
+    items = IncomeData.objects.all()
+    if gender_id != '':
+        items = items.filter(gender_id=gender_id)
+    if year != '':
+        items = items.filter(year=year)
+    if income_level_id != '':
+        items = items.filter(income_level_id=income_level_id)
+    if education_level_id != '':
+        items = items.filter(education_level_id=education_level_id)
+
+
+
+
+    counter = 0
+    output = {}
+    for item in items:
+        if item.county.state.abbr == '':
+            continue
+
+        if item.county.state.abbr in output:
+            output[item.county.state.abbr] += item.population
+        else:
+            output[item.county.state.abbr] = item.population
+
+        if counter % 10 == 0:
+            print(f'{round(counter/len(items)*100,2)}%')
+        counter += 1
+
+    abbr = list(output.keys())
+    values = list(output.values())
+
+    for county in County.objects.all():
+        if county.state.abbr != '' and county.state.abbr not in abbr:
+            abbr.append(county.state.abbr)
+            values.append(0)
+
+
+    scl = [[0.0, 'rgb(245, 245, 245)'], [0.2, 'rgb(224,193,209)'], [0.4, 'rgb(183,112,147)'], \
+           [0.6, 'rgb(153,51,102)'], [0.8, 'rgb(107,35,71)'], [1.0, 'rgb(45,15,30)']]
+
+
+    if gender_id == '':
+        chart_title = 'All Genders, '
+    else:
+        chart_title = Gender.objects.get(pk=gender_id).name + ', '
+
+    if education_level_id == '':
+        chart_title += 'All Education Levels, ' + '<br>'
+    else:
+        chart_title += EducationLevel.objects.get(pk=education_level_id).name + ', <br>'
+    if income_level_id =='':
+        chart_title = "All Income Levels, "
+    else:
+        chart_title += IncomeLevel.objects.get(pk=income_level_id).name + ', <br>'
+    if year == '':
+        chart_title += ' All Years, '
+    else:
+        chart_title += year + ', '
+    df = abbr
+    data = [dict(
+        type='choropleth',
+        colorscale=scl,
+        autocolorscale=False,
+        locations=[gender_id, education_level_id],
+        z=[gender_id, education_level_id],
+        locationmode='USA-states',
+        text=['gender_id'],
+        marker=dict(
+            line=dict(
+                color='rgb(255,255,255)',
+                width=2
+            )),
+        colorbar=dict(
+            title=chart_title)
+    )]
+
+    layout = dict(
+        title='US Education and Poverty Info by State<br>(Hover for breakdown)',
+        geo=dict(
+            scope='usa',
+            projection=dict(type='albers usa'),
+            showlakes=True,
+            lakecolor='rgb(255, 255, 255)'),
+    )
+
+
+    # create chart counter to not allow more than 25 graphs to be made (Plotly's max for a free account)
+    chart_counter = SystemParameter.objects.get(name='Chart Counter')
+    counter = int(chart_counter.value)
+    counter += 1
+    if counter >= 12:
+        counter = 0
+    chart_counter.value = str(counter)
+    chart_counter.save()
+
+
+    fig = dict(data=data, layout=layout)
+
+    url = py.plot(fig, filename='d3-cloropleth-map' + str(counter), auto_open=False)
+    print(url)
+    return HttpResponse(url)
+
+
+
+def TESTINGget_plotly_url(request):
+    pass
     gender_id = request.GET.get('gender_id', '')
     education_level_id = request.GET.get('education_level_id', '')
     income_level_id = request.GET.get('income_level_id', '')

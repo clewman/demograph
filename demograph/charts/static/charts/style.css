@@ -61,6 +61,29 @@ input.select-dropdown {
   transform: translateY(50%);
 }
 
+/**************************************BUTTONS***************************************/
+
+.btn-large {
+    height: 100%;
+    background-color: #993366;
+        text-transform: none;
+
+}
+
+.btn-large:hover {
+    height: 100%;
+    background-color: #892d5b;
+}
+
+.btn {
+    background-color: #993366;
+        text-transform: none;
+
+}
+
+.btn:hover {
+    background-color: #892d5b;
+}
 
 /**************************************EXTRA***************************************/
 #i_frame_div {
@@ -138,21 +161,5 @@ input.select-dropdown {
     margin-top: 3%;
 }
 
-.btn-large {
-    height: 100%;
-    background-color: #993366;
-}
 
-.btn-large:hover {
-    height: 100%;
-    background-color: darkred;
-}
-
-.btn {
-    background-color: #993366;
-}
-
-.btn:hover {
-    background-color: darkred;
-}
 
