@@ -1,3 +1,4 @@
+
 // scatter and line plots. Change out "mode" for "lines" or "markers"
 //change out 'type' for 'scatter' (line and scatter plots), 'bar' (bar graphs)
 // can either have plotly menu bar always on, hidden until mouseover, or completely hidden. See bottom of page for other options

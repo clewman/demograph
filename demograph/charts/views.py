@@ -16,6 +16,15 @@ import resource
 import numpy as np
 import time
 
+# create chart counter to not allow more than 25 graphs to be made (Plotly's max for a free account)
+chart_counter = SystemParameter.objects.get(name='Chart Counter')
+counter = int(chart_counter.value)
+counter += 1
+if counter >= 24:
+    counter = 0
+chart_counter.value = str(counter)
+chart_counter.save()
+
 
 def index(request):
     return render(request, 'charts/index.html', {})
@@ -75,8 +84,7 @@ def get_data(request):
     return JsonResponse({'data': data})
 
 
-def get_plotly_scatter_url(request):
-    pass
+def testget_plotly_url(request):
 
     gender_id = request.GET.get('gender_id', '')
     education_level_id = request.GET.get('education_level_id', '')
@@ -108,27 +116,16 @@ def get_plotly_scatter_url(request):
             print(f'{round(counter/len(items)*100,2)}%')
         counter += 1
 
-    fips = list(output.keys())
-    values = list(output.values())
-
-    for county in County.objects.all():
-        if county.fips != '' and county.fips not in fips:
-            fips.append(county.fips)
-            values.append(0)
 
 
-    # create chart counter to not allow more than 25 graphs to be made (Plotly's max for a free account)
-    chart_counter = SystemParameter.objects.get(name='Chart Counter')
-    counter = int(chart_counter.value)
-    counter += 1
-    if counter >= 12:
-        counter = 0
-    chart_counter.value = str(counter)
-    chart_counter.save()
+    # for state in State.objects.all():
+    #     if state.abbr != '' and state.abbr not in abbr:
+    #         abbr.append(state.abbr)
+    #         values.append(0)
 
 
     female = go.Scatter(
-        x=[0,1,3],
+        x=[abbr[-52::]],
         y=[3, 4]
     )
 
@@ -144,12 +141,12 @@ def get_plotly_scatter_url(request):
 
     data = [female, male, all_genders]
 
-
     url = py.plot(data, filename='basic-line' + str(counter), auto_open=True)
+    # url = py.plot(data, filename='basic-line' + str(counter), auto_open=True)
     print(url)
     return HttpResponse(url)
 
-def get_plotly_url(request):
+def get_plotly_state_url(request):
 
     gender_id = request.GET.get('gender_id', '')
     education_level_id = request.GET.get('education_level_id', '')
@@ -165,9 +162,6 @@ def get_plotly_url(request):
         items = items.filter(income_level_id=income_level_id)
     if education_level_id != '':
         items = items.filter(education_level_id=education_level_id)
-
-
-
 
     counter = 0
     output = {}
@@ -186,41 +180,39 @@ def get_plotly_url(request):
 
     abbr = list(output.keys())
     values = list(output.values())
-
-    for county in County.objects.all():
-        if county.state.abbr != '' and county.state.abbr not in abbr:
-            abbr.append(county.state.abbr)
+    for state in State.objects.all():
+        if state.abbr != '' and state.abbr not in abbr:
+            abbr.append(state.abbr)
             values.append(0)
-
 
     scl = [[0.0, 'rgb(245, 245, 245)'], [0.2, 'rgb(224,193,209)'], [0.4, 'rgb(183,112,147)'], \
            [0.6, 'rgb(153,51,102)'], [0.8, 'rgb(107,35,71)'], [1.0, 'rgb(45,15,30)']]
 
 
     if gender_id == '':
-        chart_title = 'All Genders, '
+        chart_title = 'All Genders' + '<br>'
     else:
-        chart_title = Gender.objects.get(pk=gender_id).name + ', '
+        chart_title = Gender.objects.get(pk=gender_id).name + '<br>'
 
     if education_level_id == '':
-        chart_title += 'All Education Levels, ' + '<br>'
+        chart_title += 'All Education Levels ' + '<br>'
     else:
-        chart_title += EducationLevel.objects.get(pk=education_level_id).name + ', <br>'
+        chart_title += EducationLevel.objects.get(pk=education_level_id).name + '<br>'
     if income_level_id =='':
-        chart_title = "All Income Levels, "
+        chart_title = "All Income Levels " + '<br>'
     else:
-        chart_title += IncomeLevel.objects.get(pk=income_level_id).name + ', <br>'
+        chart_title += IncomeLevel.objects.get(pk=income_level_id).name + '<br>'
     if year == '':
-        chart_title += ' All Years, '
+        chart_title += ' All Years '
     else:
-        chart_title += year + ', '
-    df = abbr
+        chart_title += year
+
     data = [dict(
         type='choropleth',
         colorscale=scl,
         autocolorscale=False,
-        locations=[gender_id, education_level_id],
-        z=[gender_id, education_level_id],
+        locations=abbr[-52:-1],
+        z=values,
         locationmode='USA-states',
         text=['gender_id'],
         marker=dict(
@@ -241,27 +233,17 @@ def get_plotly_url(request):
             lakecolor='rgb(255, 255, 255)'),
     )
 
-
-    # create chart counter to not allow more than 25 graphs to be made (Plotly's max for a free account)
-    chart_counter = SystemParameter.objects.get(name='Chart Counter')
-    counter = int(chart_counter.value)
-    counter += 1
-    if counter >= 12:
-        counter = 0
-    chart_counter.value = str(counter)
-    chart_counter.save()
-
-
     fig = dict(data=data, layout=layout)
 
     url = py.plot(fig, filename='d3-cloropleth-map' + str(counter), auto_open=False)
     print(url)
+    MyTest = State.objects.get(abbr='OR')
+    print(str(MyTest) + 'THIS')
     return HttpResponse(url)
 
 
+def get_plotly_url(request):
 
-def TESTINGget_plotly_url(request):
-    pass
     gender_id = request.GET.get('gender_id', '')
     education_level_id = request.GET.get('education_level_id', '')
     income_level_id = request.GET.get('income_level_id', '')
@@ -344,20 +326,23 @@ def TESTINGget_plotly_url(request):
         show_hover=True, centroid_marker={'opacity': 0},
         asp=2.9, title=chart_title,
         legend_title='Number of People',
+        county_outline={'color': 'rgb(255,255,255)', 'width': 0.5}, round_legend_values=True,
     )
 
     # create chart counter to not allow more than 25 graphs to be made (Plotly's max for a free account)
-    chart_counter = SystemParameter.objects.get(name='Chart Counter')
-    counter = int(chart_counter.value)
-    counter += 1
-    if counter >= 12:
-        counter = 0
-    chart_counter.value = str(counter)
-    chart_counter.save()
+    # added to the beginning of document so it would apply to all graphs
+    # chart_counter = SystemParameter.objects.get(name='Chart Counter')
+    # counter = int(chart_counter.value)
+    # counter += 1
+    # if counter >= 12:
+    #     counter = 0
+    # chart_counter.value = str(counter)
+    # chart_counter.save()
 
 
     url = py.plot(fig, filename='choropleth_full_usa' + str(counter), auto_open=False)
     print(url)
+
     return HttpResponse(url)
 
 

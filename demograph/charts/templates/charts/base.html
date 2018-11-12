@@ -37,8 +37,6 @@
                 <li><a href="{% url 'charts:index'  %}">Home</a></li>
                 <li><a href="{% url 'charts:graphs'  %}">Graph</a></li>
                 <li><a href="{% url 'charts:about'  %}">About</a></li>
-                                <li><a href="{% url 'charts:morecharts'  %}">More Charts</a></li>
-
             </ul>
         </div>
     </nav>
@@ -49,6 +47,7 @@
     </ul>
 </header>
 
+
 <!--<p class="flow-text">test for mobile</p>-->
 <div class="mainContainer">
     <div class="container">
@@ -56,17 +55,16 @@
         {% endblock %}
     </div>
 </div>
-
-
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
 
-
 <!--materialize-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-<script src="{% static 'charts/chart.js' %}"></script>
+
+
+<!--<script src="{% static 'charts/chart.js' %}"></script>-->
 <!--<script src="{% static 'charts/choropleth.js' %}"></script>-->
 
 <script src="{% static 'charts/base.js' %}"></script>

@@ -10,9 +10,11 @@ body {
     color: #424242;
     font-family: 'Roboto', sans-serif;
 }
+
 .red-text {
-    color:#993366 !important;
+    color: #993366 !important;
 }
+
 header {
     margin-top: 10px;
 }
@@ -28,37 +30,62 @@ a {
 iframe {
     width: 100%;
     min-height: 450px;
-    background-color:white;
+    background-color: white;
+    color: #f2f2f2;
 }
 
 /**************************************DROP DOWNS***************************************/
+.ddMenus {
+    text-align: center;
+}
 
 input.select-dropdown {
     text-align: center;
     border-bottom: 0px solid white !important;
+    color: #892d5b !important;
 }
 
 .dropdown-content li > span {
+        text-align: center;
     margin: 0 auto;
-    color: #424242;
+    color: #993366;
 }
 
 .select-wrapper .caret {
     position: absolute;
     top: 55%;
-    right:40%;
+    right: 40%;
     fill: #993366;
 }
 
-.dd_btn_container {
-    position: relative;
+/*.dd_btn_container {*/
+    /*position: relative;*/
+/*}*/
+
+/*.dd_btn {*/
+    /*margin: 0;*/
+    /*position: absolute;*/
+    /*-ms-transform: translateY(50%);*/
+    /*transform: translateY(50%);*/
+/*}*/
+
+.dropdown-trigger {
+    margin-top: 2%;
+    margin-left: 5%;
+    width: 20%;
+    height: 20%;
 }
 
-.dd_btn {
-    margin: 0;
-    position: absolute;
-  -ms-transform: translateY(50%);
-  transform: translateY(50%);
+.dd_text {
+    color: #993366 !important;
+}
+
+.btn:focus, .btn-large:focus, .btn-small:focus, .btn-floating:focus {
+    background-color: #892d5b !important;
+}
+
+.sidenav li > a {
+    color: #993366 !important;
 }
 
 /**************************************BUTTONS***************************************/
@@ -66,7 +93,7 @@ input.select-dropdown {
 .btn-large {
     height: 100%;
     background-color: #993366;
-        text-transform: none;
+    text-transform: none;
 
 }
 
@@ -77,31 +104,32 @@ input.select-dropdown {
 
 .btn {
     background-color: #993366;
-        text-transform: none;
+    text-transform: none;
 
 }
 
 .btn:hover {
-    background-color: #892d5b;
+    background-color: #892d5b !important;
 }
 
 /**************************************EXTRA***************************************/
 #i_frame_div {
-    position:relative;
+    position: relative;
 }
+
 /*#loading_icon img{*/
-    /*position:absolute;*/
-    /*bottom: 25%;*/
-    /*right: 40%;*/
-    /*width: 25%;*/
-    /*!*display:none;*!*/
+/*position:absolute;*/
+/*bottom: 25%;*/
+/*right: 40%;*/
+/*width: 25%;*/
+/*!*display:none;*!*/
 /*}*/
 
 /*#loading_icon p {*/
-    /*position:absolute;*/
-    /*bottom: 20%;*/
-    /*right: 40%;*/
-    /*!*display:none;*!*/
+/*position:absolute;*/
+/*bottom: 20%;*/
+/*right: 40%;*/
+/*!*display:none;*!*/
 /*}*/
 
 .homeStyles {
@@ -161,5 +189,45 @@ input.select-dropdown {
     margin-top: 3%;
 }
 
+#graph_iframe {
+    background-image: url("images/cat.png"); /* The image used */
+    background-color: #333; /* Used if the image is unavailable */
+    height: 500px; /* You must set a specified height */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+}
 
+/**************************************MEDIA QUERIES***************************************/
+@media only screen and (max-width: 1000px) {
+    .dropdown-trigger {
+        width: 100%;
+        margin: 0 auto;
+    }
+}
 
+@media only screen and (max-width: 600px) {
+    body {
+        background-color: #f1f1f1;
+        border:none;
+    }
+
+    .mainContainer {
+        background-color: #f1f1f1;
+        background: none;
+    }
+
+    .chartContainer {
+        background-color: #f1f1f1;
+        border-radius: 0;
+        width: 100%;
+        padding: 0;
+        box-shadow: none;
+        border:none;
+    }
+    .select-wrapper .caret {
+    position: static;
+    fill: #993366;
+}
+
+}
