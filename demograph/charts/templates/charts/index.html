@@ -10,12 +10,12 @@
         </div>
         <div class="col s10 m6 socialMedia">
             <h4><a href="https://twitter.com/demograph3" target="_blank">
-            <i class="fab fa-twitter socMedia red-text"></i></a>
-            <a href="https://www.linkedin.com/in/cheryl-lewman-58241066/" target="_blank">
-                <i class="fab fa-linkedin-in socMedia red-text"></i>
-            </a>
+                <i class="fab fa-twitter socMedia red-text"></i></a>
+                <a href="https://www.linkedin.com/in/cheryl-lewman-58241066/" target="_blank">
+                    <i class="fab fa-linkedin-in socMedia red-text"></i>
+                </a>
                 <a href="https://gist.github.com/clewman" target="_blank">
-            <i class="fab fa-github socMedia red-text"></i>
+                    <i class="fab fa-github socMedia red-text"></i>
                 </a>
                 <a href="https://gist.github.com/clewman" target="_blank">
                     <i class="fab fa-codepen socMedia red-text"></i></a>
@@ -23,21 +23,27 @@
         </div>
     </div>
     <div class="row">
-        <div class="col m5 s10"><p>Demograph is a web application that allows you to create graphs that will show
-            the disparity between income, education, and gender.  </p></div>
-        <div class="col s0 m1"></div>
-        <div class="col m5 s10"><p>You can create county choroplethsYou can select gender, education level,
-            year (2012-2017) and income toThe data comes from the US Census API, American
-            Community Survey (ACS), which collects information for US counties with populations of 65,000 or more.
+        <div class="col m5 s10"><p><span id="drop_cap">D</span>emograph is a web application that allows you to create graphs that show
+            the disparity between income, education, and gender in the United States over a five year period. The data
+            comes from the US Census API, American Community Survey (ACS), which collects information for US counties
+            with populations of 65,000 or more.
             You can view by county, state, or with comparison charts.
-        create county .</p></div>
+        </p></div>
+        <div class="col s0 m1"></div>
+        <div class="col m5 s10"><p>There are several graph options: county and state choropleths, bar charts,
+            scatterplots, and line graphs. You can create county and state choropleths based on gender, income level,
+            year (2012-2017), and/or
+            education level. You can also create a line chart, scatter plot, or bar graph
+            displaying comparisons of men and women, both above and below the poverty level. </p>
+            <p>Check back soon for new Demograph features.</p>
+        </div>
     </div>
     <div class="row">
         <div class="col s4"></div>
-        <div class="col s5"> <a href="{% url 'charts:graphs'  %}">
+        <div class="col s5"><a href="{% url 'charts:graphs'  %}">
             <btn class="waves-effect waves-light btn-large"><h5>Create a Graph</h5></btn>
-            </a>
-</div>
+        </a>
+        </div>
         <div class="col s3"></div>
     </div>
 </div>

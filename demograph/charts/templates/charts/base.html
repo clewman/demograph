@@ -31,11 +31,12 @@
 <header>
     <nav>
         <div class="nav-wrapper grey darken-3">
-            <a href="#" class="brand-logo">Demograph</a>
+            <a href="#" class="brand-logo"><img src="{% static 'charts/images/logobiggray.png' %}"/></a>
             <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
                 <li><a href="{% url 'charts:index'  %}">Home</a></li>
-                <li><a href="{% url 'charts:graphs'  %}">Graph</a></li>
+                <li><a href="{% url 'charts:graphs'  %}">Choropleths</a></li>
+                <li><a href="{% url 'charts:morecharts'  %}">Graphs</a></li>
                 <li><a href="{% url 'charts:about'  %}">About</a></li>
             </ul>
         </div>
@@ -62,13 +63,10 @@
 <!--materialize-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-
-
-<!--<script src="{% static 'charts/chart.js' %}"></script>-->
+<script src="{% static 'charts/chart.js' %}"></script>
 <!--<script src="{% static 'charts/choropleth.js' %}"></script>-->
 
 <script src="{% static 'charts/base.js' %}"></script>
-<!--<script src="{% static 'charts/userOption1.js' %}"></script>-->
 </body>
 
 </html>

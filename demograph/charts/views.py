@@ -41,6 +41,7 @@ def morecharts(request):
     print(years)
     return render(request, 'charts/morecharts.html', {'items': items,
                                                   'years': years,
+                                                  'states': State.objects.all(),
                                                   'income_levels': IncomeLevel.objects.all(),
                                                   'education_levels': EducationLevel.objects.all(),
                                                   'genders': Gender.objects.all()})
@@ -62,11 +63,11 @@ def graphs(request):
 
 
 def get_data(request):
-    gender_id = request.GET['gender_id']
-    education_level_id = request.GET['education_level_id']
-    income_level_id = request.GET['income_level_id']
-    year = request.GET['year']
-    print('a', year)
+    gender_id = request.GET.get('gender_id', '')
+    education_level_id = request.GET.get('education_level_id', '')
+    income_level_id = request.GET.get('income_level_id', '')
+    year = request.GET.get('year', '')
+    state_id = request.GET.get('state_id', '')
 
     items = IncomeData.objects.all()
     if gender_id != '':
@@ -77,6 +78,16 @@ def get_data(request):
         items = items.filter(income_level_id=income_level_id)
     if education_level_id != '':
         items = items.filter(education_level_id=education_level_id)
+
+    # if state_id != '':
+    #     items = items.filter(county_state_id=state_id)
+
+    if state_id != '':
+        items2 = []
+        for item in items:
+            if item.county.state_id == state_id:
+                items2.append(item)
+        items = items2
 
     data = []
     for item in items:
@@ -84,67 +95,65 @@ def get_data(request):
     return JsonResponse({'data': data})
 
 
-def testget_plotly_url(request):
-
-    gender_id = request.GET.get('gender_id', '')
-    education_level_id = request.GET.get('education_level_id', '')
-    income_level_id = request.GET.get('income_level_id', '')
-    year = request.GET.get('year', '')
-
-    items = IncomeData.objects.all()
-    if gender_id != '':
-        items = items.filter(gender_id=gender_id)
-    if year != '':
-        items = items.filter(year=year)
-    if income_level_id != '':
-        items = items.filter(income_level_id=income_level_id)
-    if education_level_id != '':
-        items = items.filter(education_level_id=education_level_id)
-
-    counter = 0
-    output = {}
-    for item in items:
-        if item.county.fips == '':
-            continue
-
-        if item.county.fips in output:
-            output[item.county.fips] += item.population
-        else:
-            output[item.county.fips] = item.population
-
-        if counter % 10 == 0:
-            print(f'{round(counter/len(items)*100,2)}%')
-        counter += 1
-
-
-
-    # for state in State.objects.all():
-    #     if state.abbr != '' and state.abbr not in abbr:
-    #         abbr.append(state.abbr)
-    #         values.append(0)
-
-
-    female = go.Scatter(
-        x=[abbr[-52::]],
-        y=[3, 4]
-    )
-
-    male = go.Scatter(
-        x=[3, 4, 6],
-        y=[2, 8]
-    )
-
-    all_genders = go.Scatter(
-        x=[5, 8, 9],
-        y=[12, 18]
-    )
-
-    data = [female, male, all_genders]
-
-    url = py.plot(data, filename='basic-line' + str(counter), auto_open=True)
-    # url = py.plot(data, filename='basic-line' + str(counter), auto_open=True)
-    print(url)
-    return HttpResponse(url)
+# def get_plotly_line_url(request):
+#     gender_id = request.GET.get('gender_id', '')
+#     education_level_id = request.GET.get('education_level_id', '')
+#     income_level_id = request.GET.get('income_level_id', '')
+#     year = request.GET.get('year', '')
+#
+#     items = IncomeData.objects.all()
+#     if gender_id != '':
+#         items = items.filter(gender_id=gender_id)
+#     if year != '':
+#         items = items.filter(year=year)
+#     if income_level_id != '':
+#         items = items.filter(income_level_id=income_level_id)
+#     if education_level_id != '':
+#         items = items.filter(education_level_id=education_level_id)
+#
+#     counter = 0
+#     output = {}
+#     for item in items:
+#         if item.county.state.abbr == '':
+#             continue
+#
+#         if item.county.state.abbr in output:
+#             output[item.county.state.abbr] += item.population
+#         else:
+#             output[item.county.state.abbr] = item.population
+#
+#         if counter % 10 == 0:
+#             print(f'{round(counter/len(items)*100,2)}%')
+#         counter += 1
+#
+#     abbr = list(output.keys())
+#     values = list(output.values())
+#     for state in State.objects.all():
+#         if state.abbr != '' and state.abbr not in abbr:
+#             abbr.append(state.abbr)
+#             values.append(0)
+#
+#
+#     female = go.Scatter(
+#         x=[gender_id],
+#         y=[values]
+#     )
+#
+#     male = go.Scatter(
+#         x=[3, 4, 6],
+#         y=[2, 8]
+#     )
+#
+#     all_genders = go.Scatter(
+#         x=[5, 8, 9],
+#         y=[12, 18]
+#     )
+#
+#     data = [female, male, all_genders]
+#
+#     url = py.plot(data, filename='basic-line' + str(counter), auto_open=False)
+#     print(url)
+#     return HttpResponse(url)
 
 def get_plotly_state_url(request):
 
@@ -180,6 +189,8 @@ def get_plotly_state_url(request):
 
     abbr = list(output.keys())
     values = list(output.values())
+
+    # add states to the output that aren't associated with any income data
     for state in State.objects.all():
         if state.abbr != '' and state.abbr not in abbr:
             abbr.append(state.abbr)
@@ -188,7 +199,7 @@ def get_plotly_state_url(request):
     scl = [[0.0, 'rgb(245, 245, 245)'], [0.2, 'rgb(224,193,209)'], [0.4, 'rgb(183,112,147)'], \
            [0.6, 'rgb(153,51,102)'], [0.8, 'rgb(107,35,71)'], [1.0, 'rgb(45,15,30)']]
 
-
+    # creates title for chart
     if gender_id == '':
         chart_title = 'All Genders' + '<br>'
     else:
@@ -207,6 +218,7 @@ def get_plotly_state_url(request):
     else:
         chart_title += year
 
+    # sets up state map frame
     data = [dict(
         type='choropleth',
         colorscale=scl,
@@ -237,13 +249,11 @@ def get_plotly_state_url(request):
 
     url = py.plot(fig, filename='d3-cloropleth-map' + str(counter), auto_open=False)
     print(url)
-    MyTest = State.objects.get(abbr='OR')
-    print(str(MyTest) + 'THIS')
     return HttpResponse(url)
 
 
 def get_plotly_url(request):
-
+    pass
     gender_id = request.GET.get('gender_id', '')
     education_level_id = request.GET.get('education_level_id', '')
     income_level_id = request.GET.get('income_level_id', '')

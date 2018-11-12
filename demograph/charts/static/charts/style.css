@@ -88,6 +88,9 @@ input.select-dropdown {
     color: #993366 !important;
 }
 
+.dropdown-content li>a, .dropdown-content li>span  {
+    width: 100%;
+}
 /**************************************BUTTONS***************************************/
 
 .btn-large {
@@ -116,21 +119,6 @@ input.select-dropdown {
 #i_frame_div {
     position: relative;
 }
-
-/*#loading_icon img{*/
-/*position:absolute;*/
-/*bottom: 25%;*/
-/*right: 40%;*/
-/*width: 25%;*/
-/*!*display:none;*!*/
-/*}*/
-
-/*#loading_icon p {*/
-/*position:absolute;*/
-/*bottom: 20%;*/
-/*right: 40%;*/
-/*!*display:none;*!*/
-/*}*/
 
 .homeStyles {
     font-size: 1.25em;
@@ -190,14 +178,29 @@ input.select-dropdown {
 }
 
 #graph_iframe {
-    background-image: url("images/cat.png"); /* The image used */
-    background-color: #333; /* Used if the image is unavailable */
-    height: 500px; /* You must set a specified height */
-    background-position: center; /* Center the image */
-    background-repeat: no-repeat; /* Do not repeat the image */
-    background-size: cover; /* Resize the background image to cover the entire container */
+    background-color: #333;
+    background-image: url("images/logobigpink.png");
+    height: 350px;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
+#loading_icon {
+    background-color: #333;
+}
+
+.brand-logo img {
+    height: 60px;
+    margin-left: -10px;
+}
+
+#drop_cap {
+    float: left;
+    width: 0.7em;
+    font-size: 350%;
+    font-family: algerian, courier;
+    line-height: 75%;
+}
 /**************************************MEDIA QUERIES***************************************/
 @media only screen and (max-width: 1000px) {
     .dropdown-trigger {

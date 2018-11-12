@@ -2,7 +2,6 @@
 from django.db import models
 
 
-
 class EducationLevel(models.Model):
     name = models.CharField(max_length=100)
 
@@ -55,12 +54,12 @@ class IncomeData(models.Model):
 
 
     def to_dictionary(self):
-        return {#'education_level': self.education_level.name,
-                #'gender': self.gender.name,
-                #'income_level': self.income_level.name,
+        return {'education_level': self.education_level.name,
+                'gender': self.gender.name,
+                'income_level': self.income_level.name,
                 'year': self.year,
-                #'population': self.population,
-                #'county': self.county.name
+                'population': self.population,
+                'county': self.county.name
         }
 
 class SystemParameter(models.Model):
