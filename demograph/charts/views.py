@@ -17,13 +17,15 @@ import numpy as np
 import time
 
 # create chart counter to not allow more than 25 graphs to be made (Plotly's max for a free account)
-chart_counter = SystemParameter.objects.get(name='Chart Counter')
-counter = int(chart_counter.value)
-counter += 1
-if counter >= 24:
-    counter = 0
-chart_counter.value = str(counter)
-chart_counter.save()
+def get_chart_counter():
+    chart_counter = SystemParameter.objects.get(name='Chart Counter')
+    counter = int(chart_counter.value)
+    counter += 1
+    if counter >= 24:
+        counter = 0
+    chart_counter.value = str(counter)
+    chart_counter.save()
+    return counter
 
 
 def index(request):
@@ -95,65 +97,65 @@ def get_data(request):
     return JsonResponse({'data': data})
 
 
-# def get_plotly_line_url(request):
-#     gender_id = request.GET.get('gender_id', '')
-#     education_level_id = request.GET.get('education_level_id', '')
-#     income_level_id = request.GET.get('income_level_id', '')
-#     year = request.GET.get('year', '')
-#
-#     items = IncomeData.objects.all()
-#     if gender_id != '':
-#         items = items.filter(gender_id=gender_id)
-#     if year != '':
-#         items = items.filter(year=year)
-#     if income_level_id != '':
-#         items = items.filter(income_level_id=income_level_id)
-#     if education_level_id != '':
-#         items = items.filter(education_level_id=education_level_id)
-#
-#     counter = 0
-#     output = {}
-#     for item in items:
-#         if item.county.state.abbr == '':
-#             continue
-#
-#         if item.county.state.abbr in output:
-#             output[item.county.state.abbr] += item.population
-#         else:
-#             output[item.county.state.abbr] = item.population
-#
-#         if counter % 10 == 0:
-#             print(f'{round(counter/len(items)*100,2)}%')
-#         counter += 1
-#
-#     abbr = list(output.keys())
-#     values = list(output.values())
-#     for state in State.objects.all():
-#         if state.abbr != '' and state.abbr not in abbr:
-#             abbr.append(state.abbr)
-#             values.append(0)
-#
-#
-#     female = go.Scatter(
-#         x=[gender_id],
-#         y=[values]
-#     )
-#
-#     male = go.Scatter(
-#         x=[3, 4, 6],
-#         y=[2, 8]
-#     )
-#
-#     all_genders = go.Scatter(
-#         x=[5, 8, 9],
-#         y=[12, 18]
-#     )
-#
-#     data = [female, male, all_genders]
-#
-#     url = py.plot(data, filename='basic-line' + str(counter), auto_open=False)
-#     print(url)
-#     return HttpResponse(url)
+def get_plotly_line_url(request):
+    gender_id = request.GET.get('gender_id', '')
+    education_level_id = request.GET.get('education_level_id', '')
+    income_level_id = request.GET.get('income_level_id', '')
+    year = request.GET.get('year', '')
+
+    items = IncomeData.objects.all()
+    if gender_id != '':
+        items = items.filter(gender_id=gender_id)
+    if year != '':
+        items = items.filter(year=year)
+    if income_level_id != '':
+        items = items.filter(income_level_id=income_level_id)
+    if education_level_id != '':
+        items = items.filter(education_level_id=education_level_id)
+
+    counter = 0
+    output = {}
+    for item in items:
+        if item.county.state.abbr == '':
+            continue
+
+        if item.county.state.abbr in output:
+            output[item.county.state.abbr] += item.population
+        else:
+            output[item.county.state.abbr] = item.population
+
+        if counter % 10 == 0:
+            print(f'{round(counter/len(items)*100,2)}%')
+        counter += 1
+
+    abbr = list(output.keys())
+    values = list(output.values())
+    for state in State.objects.all():
+        if state.abbr != '' and state.abbr not in abbr:
+            abbr.append(state.abbr)
+            values.append(0)
+
+
+    female = go.Scatter(
+        x=[year],
+        y=[pop]
+    )
+
+    male = go.Scatter(
+        x=[3, 4, 6],
+        y=[2, 8]
+    )
+
+    all_genders = go.Scatter(
+        x=[5, 8, 9],
+        y=[12, 18]
+    )
+
+    data = [female, male, all_genders]
+
+    url = py.plot(data, filename='basic-line' + str(counter), auto_open=False)
+    print(url)
+    return HttpResponse(url)
 
 def get_plotly_state_url(request):
 
@@ -247,13 +249,12 @@ def get_plotly_state_url(request):
 
     fig = dict(data=data, layout=layout)
 
-    url = py.plot(fig, filename='d3-cloropleth-map' + str(counter), auto_open=False)
+    url = py.plot(fig, filename='d3-cloropleth-map' + str(get_chart_counter()), auto_open=False)
     print(url)
     return HttpResponse(url)
 
 
 def get_plotly_url(request):
-    pass
     gender_id = request.GET.get('gender_id', '')
     education_level_id = request.GET.get('education_level_id', '')
     income_level_id = request.GET.get('income_level_id', '')
@@ -339,18 +340,7 @@ def get_plotly_url(request):
         county_outline={'color': 'rgb(255,255,255)', 'width': 0.5}, round_legend_values=True,
     )
 
-    # create chart counter to not allow more than 25 graphs to be made (Plotly's max for a free account)
-    # added to the beginning of document so it would apply to all graphs
-    # chart_counter = SystemParameter.objects.get(name='Chart Counter')
-    # counter = int(chart_counter.value)
-    # counter += 1
-    # if counter >= 12:
-    #     counter = 0
-    # chart_counter.value = str(counter)
-    # chart_counter.save()
-
-
-    url = py.plot(fig, filename='choropleth_full_usa' + str(counter), auto_open=False)
+    url = py.plot(fig, filename='choropleth_full_usa' + str(get_chart_counter()), auto_open=False)
     print(url)
 
     return HttpResponse(url)

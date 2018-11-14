@@ -1,99 +1,117 @@
 {% extends 'charts/base.html' %}
-
 {% load static %}
 {% block content %}
 
 <div class="chartContainer">
+
     <div class="row">
-        <div class="col xl2 input-field">
-                <select multiple id="gender" >
-                    <option id="gender" value="" disabled selected>Gender</option>
+
+        <div class="col s10 m3 l2 xl2">
+            <div class="input-field ddMenus">
+                <select id="gender">
                     <option value="">Any Gender</option>
                     {% for gender in genders %}
                     <option value="{{gender.id}}">{{gender.name}}</option>
-                    {% endfor %}
+                    {% endfor %}ß
+
                 </select>
+            </div>
         </div>
 
-        <div class="col xl2 input-field">
-                <select multiple id="education">
-                    <option value="" disabled selected>Education</option>
-                    {% for education_level in education_levels %}
-                    <option value="{{education_level.id}}">{{education_level.name}}</option>
-                    {% endfor %}
-                </select>
-        </div>
-
-        <div class="col xl2 input-field">
-                <select multiple id="income">
-                    <option value="" disabled selected>Income</option>
+        <div class="col s10 m3 l2 xl2 ">
+            <div class="input-field  ddMenus">
+                <select id="income">
+                    <option value="">Income Level</option>
                     {% for income_level in income_levels %}
                     <option value="{{income_level.id}}">{{income_level.name}}</option>
                     {% endfor %}
                 </select>
+            </div>
+        </div>
+        <div class="col s10 m3 l2 xl2">
+            <div class="input-field  ddMenus">
+                <select id="education">
+                    <option value="">Any Education</option>
+                    {% for education_level in education_levels %}
+                    <option value="{{education_level.id}}">{{education_level.name}}</option>
+                    {% endfor %}
+
+                </select>
+            </div>
         </div>
 
-        <div class="col xl2 input-field">
-                <select multiple>
-                    <option value="" disabled selected>State</option>
-                   {% for state in states %}
-                    <option value="{{state.id}}">{{state.abbr}}</option>
+        <div class="col s10 m3 l2 xl2">
+            <div class="input-field ddMenus">
+                <select id="year">
+                    <option value="">Any Year</option>
+                    {% for year in years %}
+                    <option value="{{year}}">{{year}}</option>
                     {% endfor %}
                 </select>
+            </div>
         </div>
-
         <div>
             <!-- Dropdown Trigger -->
             <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Choose Graph</a>
 
             <!-- Dropdown Structure -->
             <ul id='dropdown1' class='dropdown-content'>
-                <li><a id="submit_line_button"><span class="dd_text">Line</span></a>
+                <li><a id="submit_button"><span class="dd_text">County Choropleth</span></a>
                 </li>
                 <li class="divider" tabindex="-1"></li>
 
-                <li><a id="submit_bar_button"><span class="dd_text">Bar</span></a>
+                <li><a id="submit_state_button"><span class="dd_text">State Choropleth</span></a>
+                </li>
+                <li><a id="submit_line_button"><span class="dd_text">Line Graph</span></a>
                 </li>
                 <li class="divider" tabindex="-1"></li>
 
                 <li><a id="submit_scatter_button"><span class="dd_text">Scatter</span></a>
                 </li>
+                <li><a id="submit_bar_button"><span class="dd_text">Bar</span></a>
+                </li>
+                <li class="divider" tabindex="-1"></li>
             </ul>
         </div>
 
-    </div>
-    <div id="i_frame_div">
 
-        <div>
-            <img id="loading_icon" src="{% static 'charts/images/demographloader.gif' %}" style="display:none;
+        <div id="i_frame_div">
+            <div>
+                <img id="loading_icon" src="{% static 'charts/images/demographloader.gif' %}" style="display:none;
                 position:absolute;
                 top: 15%;
                 right: 30%;
                 height: 250px;
                 border-style:outset;
                 margin: 5%;"/>
-            <br>
-            <p id="loading_word" style="display:none; position:absolute;
+                <br>
+                <p id="loading_word" style="display:none; position:absolute;
     bottom: 23%;
     right: 23%;
     width: 25%;">loading...</p>
-        </div>
+            </div>
 
-        <div>
-            <iframe id="graph_iframe" src="">
-                <p>Your browser does not support iframes.</p>
-            </iframe>
-        </div>
+            <div>
+                <iframe id="graph_iframe" src="">
+                    <p>Your browser does not support iframes.</p>
+                </iframe>
+            </div>
 
-    </div>
-    <script>
-            let state = document.querySelector('#state')
+        </div>
+        <script>
+            let year_input = document.querySelector('#year')
             let gender_input = document.querySelector('#gender')
             let income_level = document.querySelector('#income')
             let education_level = document.querySelector('#education')
+
             let submit_button = document.querySelector('#submit_button')
+            let submit_state_button = document.querySelector('#submit_state_button')
+            let submit_line_button = document.querySelector('#submit_line_button')
+            let submit_bar_button = document.querySelector('#submit_bar_button')
+            let submit_scatter_button = document.querySelector('#submit_scatter_button')
 
 
+            // county choropleth
             function getData() {
                 let url = "{% url 'charts:get_plotly_url' %}"
 
@@ -104,6 +122,7 @@
                 let education_level_id = education_level.options[education_level.selectedIndex].value
                 let year_id = year_input.options[year_input.selectedIndex].value
                 let income_level_id = income_level.options[income_level.selectedIndex].value
+                console.log('gettin the url')
                 axios.get(url, {
                     params: {
                         gender_id: gender_id,
@@ -120,16 +139,79 @@
                     })
             }
 
+            // gender_input.onchange = getData
+            // income_level.onchange = getData
+            // education_level.onchange = getData
+            // year_input.onchange = getData
+
             submit_button.onclick = getData
 
             // make sure to turn below back on- just turned off for testing
             // getData()
 
+            // state choropleth
+            function getData2() {
+                let url_state = "{% url 'charts:get_plotly_state_url' %}"
 
+                document.querySelector('#loading_icon').style.display = '';
+                document.querySelector('#loading_word').style.display = '';
+
+                let gender_id = gender_input.options[gender_input.selectedIndex].value
+                let education_level_id = education_level.options[education_level.selectedIndex].value
+                let year_id = year_input.options[year_input.selectedIndex].value
+                let income_level_id = income_level.options[income_level.selectedIndex].value
+                axios.get(url_state, {
+                    params: {
+                        gender_id: gender_id,
+                        education_level_id: education_level_id,
+                        year: year_id,
+                        income_level_id: income_level_id,
+                    }
+                })
+                    .then(function (response) {
+                        document.querySelector('#graph_iframe').src = response.data
+                        document.querySelector('#loading_icon').style.display = 'none';
+                        document.querySelector('#loading_word').style.display = 'none';
+                    })
+            }
+
+            // gender_input.onchange = getData
+            // income_level.onchange = getData
+            // education_level.onchange = getData
+            // year_input.onchange = getData
+
+            submit_state_button.onclick = getData2
+
+            // line graph
+            function getData3() {
+                let url_line = "{% url 'charts:get_plotly_line_url' %}"
+
+
+                document.querySelector('#loading_icon').style.display = '';
+                document.querySelector('#loading_word').style.display = '';
+
+                let gender_id = gender_input.options[gender_input.selectedIndex].value
+                let education_level_id = education_level.options[education_level.selectedIndex].value
+                let year_id = year_input.options[year_input.selectedIndex].value
+                let income_level_id = income_level.options[income_level.selectedIndex].value
+                axios.get(url_line, {
+                    params: {
+                        gender_id: gender_id,
+                        education_level_id: education_level_id,
+                        year: year_id,
+                        income_level_id: income_level_id,
+                    }
+                })
+                    .then(function (response) {
+                        document.querySelector('#graph_iframe').src = response.data
+                        document.querySelector('#loading_icon').style.display = 'none';
+                        document.querySelector('#loading_word').style.display = 'none';
+                    })
+            }
+
+            submit_line_button.onclick = getData3
 
         </script>
-</div>
 
-
-{% endblock %}
+        {% endblock %}
 

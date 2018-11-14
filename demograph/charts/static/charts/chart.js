@@ -4,25 +4,7 @@
 // see about doing an "if scatter: change marker size" to make scatter plots bigger but not anything else
 
 
-let chart_type_ddl = document.querySelector('#chart_type_ddl')
-chart_type_ddl.onchange = function () {
-    let type = chart_type_ddl.options[chart_type_ddl.selectedIndex].value
-    let mode = chart_type_ddl.options[chart_type_ddl.selectedIndex].title
-    let a = []
-    myFunction(type, mode, a)
-}
 
-
-function myFunction(type, mode, a) {
-
-    var data = [{
-        x: ['giraffes', 'orangutans', 'monkeys'],
-        y: [20, 14, 23],
-        type: 'bar'
-    }];
-
-    Plotly.newPlot('i_frame_div', data);
-}
 
     // trace1 = {
     //     type: type,
