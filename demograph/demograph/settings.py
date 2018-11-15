@@ -121,6 +121,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = "/home/cherylslewman/cherylslewman.pythonanywhere.com/demograph/static"
+
+#STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 
 
