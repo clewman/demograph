@@ -138,7 +138,7 @@ def get_plotly_line_url(request):
 
     female = go.Scatter(
         x=[year],
-        y=[pop]
+        y=[population]
     )
 
     male = go.Scatter(
