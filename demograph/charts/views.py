@@ -59,6 +59,7 @@ def graphs(request):
 
     return render(request, 'charts/graphs.html', {'items': items,
                                                   'years': years,
+                                                  'states': State.objects.all(),
                                                   'income_levels': IncomeLevel.objects.all(),
                                                   'education_levels': EducationLevel.objects.all(),
                                                   'genders': Gender.objects.all()})
@@ -81,15 +82,15 @@ def get_data(request):
     if education_level_id != '':
         items = items.filter(education_level_id=education_level_id)
 
-    # if state_id != '':
-    #     items = items.filter(county_state_id=state_id)
-
     if state_id != '':
-        items2 = []
-        for item in items:
-            if item.county.state_id == state_id:
-                items2.append(item)
-        items = items2
+        items = items.filter(county_state_id=state_id)
+
+    # if state_id != '':
+    #     items2 = []
+    #     for item in items:
+    #         if item.county.state_id == state_id:
+    #             items2.append(item)
+    #     items = items2
 
     data = []
     for item in items:
@@ -113,26 +114,47 @@ def get_plotly_line_url(request):
         items = items.filter(income_level_id=income_level_id)
     if education_level_id != '':
         items = items.filter(education_level_id=education_level_id)
+    # if state_id != '':
+    #     items = items.filter(county_state_id=state_id)
+
+    items2 = State.objects.all()
     if state_id != '':
-        items = items.filter(county_state_id=state_id)
-
-    counter = 0
-    output = {}
-    for item in items:
-        if item.county.state.abbr == '':
-            continue
-
-        if item.county.state.abbr in output:
-            output[item.county.state.abbr] += item.population
-        else:
-            output[item.county.state.abbr] = item.population
-
-        if counter % 10 == 0:
-            print(f'{round(counter/len(items)*100,2)}%')
-        counter += 1
+        items2 = items2.filter(state_id=state_id)
 
 
-    # this gets the state values
+    # if state_id != '':
+    #     items2 = []
+    #     for item in items:
+    #         if item.county.state_id == state_id:
+    #             items2.append(item)
+    #     items = items2
+
+    print('**************')
+    print('[[[[[[[[[[[[[[[[[[[[')
+    print(state_id)
+    print('[[[[[[[[[[[[[[[[[[[[')
+
+    print('**************')
+
+    # The counter shows progress of load in terminal (I think). The output creates a list of
+    # all the abbr and pop values
+    # counter = 0
+    # output = {}
+    # for item in items:
+    #     if item.county.state.abbr == '':
+    #         continue
+    #
+    #     if item.county.state.abbr in output:
+    #         output[item.county.state.abbr] += item.population
+    #     else:
+    #         output[item.county.state.abbr] = item.population
+    #
+    #     if counter % 10 == 0:
+    #         print(f'{round(counter/len(items)*100,2)}%')
+    #     counter += 1
+
+
+    # this gets the state values, all of them. Not sure I need this.
     # abbr = list(output.keys())
     # state_values = list(output.values())
     # for state in State.objects.all():
@@ -142,9 +164,7 @@ def get_plotly_line_url(request):
 
     # print(state_values[0])
     # print(abbr)
-    print('**************')
-    print(state_id)
-    print('**************')
+
 
     female = go.Scatter(
         x=[year],
@@ -164,8 +184,8 @@ def get_plotly_line_url(request):
 
     data = [female, male, all_genders]
 
-    url = py.plot(data, filename='basic-line' + str(counter), auto_open=False)
-    print(url)
+    # url = py.plot(data, filename='basic-line' + str(counter), auto_open=False)
+    # print(url)
     return HttpResponse(url)
 
 def get_plotly_state_url(request):

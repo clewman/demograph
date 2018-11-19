@@ -59,7 +59,8 @@ class IncomeData(models.Model):
                 'income_level': self.income_level.name,
                 'year': self.year,
                 'population': self.population,
-                'county': self.county.name
+                'county': self.county.name,
+                'state': self.county.state.abbr
         }
 
 class SystemParameter(models.Model):
