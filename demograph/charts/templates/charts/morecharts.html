@@ -18,6 +18,18 @@
             </div>
         </div>
 
+        <div class="col s10 m3 l2 xl2">
+            <div class="input-field ddMenus">
+                <select id="gender">
+                    <option value="">State</option>
+                    {% for state in states %}
+                    <option value="{{gender.id}}">{{state.abbr}}</option>
+                    {% endfor %}ß
+
+                </select>
+            </div>
+        </div>
+
         <div class="col s10 m3 l2 xl2 ">
             <div class="input-field  ddMenus">
                 <select id="income">
@@ -98,29 +110,16 @@
             </div>
 
         </div>
-        <script>
-
-            let chart_type_ddl = document.querySelector('#chart_type_ddl')
-            chart_type_ddl.onchange = function () {
-                let type = chart_type_ddl.options[chart_type_ddl.selectedIndex].value
-                let mode = chart_type_ddl.options[chart_type_ddl.selectedIndex].title
-                myFunction(type, mode)
-            }
+ <script>
             let year_input = document.querySelector('#year')
             let gender_input = document.querySelector('#gender')
             let income_level = document.querySelector('#income')
             let education_level = document.querySelector('#education')
-
             let submit_button = document.querySelector('#submit_button')
-            let submit_state_button = document.querySelector('#submit_state_button')
-            let submit_line_button = document.querySelector('#submit_line_button')
-            let submit_bar_button = document.querySelector('#submit_bar_button')
-            let submit_scatter_button = document.querySelector('#submit_scatter_button')
 
 
-            // county choropleth
-            function getData(type, mode) {
-
+            function getData() {
+                let url = "{% url 'charts:get_plotly_line_url' %}"
 
                 document.querySelector('#loading_icon').style.display = '';
                 document.querySelector('#loading_word').style.display = '';
@@ -129,7 +128,8 @@
                 let education_level_id = education_level.options[education_level.selectedIndex].value
                 let year_id = year_input.options[year_input.selectedIndex].value
                 let income_level_id = income_level.options[income_level.selectedIndex].value
-                axios.get(url_line, {
+                console.log('gettin the url')
+                axios.get(url, {
                     params: {
                         gender_id: gender_id,
                         education_level_id: education_level_id,
@@ -141,66 +141,52 @@
                         document.querySelector('#graph_iframe').src = response.data
                         document.querySelector('#loading_icon').style.display = 'none';
                         document.querySelector('#loading_word').style.display = 'none';
-                        var year = []
-                        var gender = []
-                        var income_level = []
-                        var education_level = []
 
-
-                            if (type == 'bar' || type == 'line' || type == 'scatter') {
-
-                                trace1 = {
-                                    type: type,
-                                    x: year,
-                                    y: gender,
-                                    mode: mode,
-                                    name: 'Red',
-                                    line: {
-                                        color: 'rgb(219, 64, 82)',
-                                        width: 3
-                                    },
-                                    marker: {size: 12}
-                                };
-
-                                trace2 = {
-                                    type: type,
-                                    x: income_level,
-                                    y: education_level,
-                                    mode: mode,
-                                    name: 'Blue',
-                                    line: {
-                                        color: 'rgb(66, 244, 89)',
-                                        width: 1
-                                    },
-                                    marker: {size: 12}
-                                };
-
-                                var data = [trace1, trace2];
-
-                                var layout = {
-                                    title: 'Title',
-                                    showlegend: true
-                                };
-                            }
-
-                            else if (type == 'pie') {
-                                var data = [{
-                                    values: year,
-                                    labels: ['Residential', 'Non-Residential', 'Utility'],
-                                    type: type
-                    }];
-                }
-
-
-                Plotly.newPlot('finalGraph', data, layout, {displayModeBar: false});
-
+                    })
             }
 
+            // gender_input.onchange = getData
+            // income_level.onchange = getData
+            // education_level.onchange = getData
+            // year_input.onchange = getData
 
-            )
+            submit_button.onclick = getData
+
+            // make sure to turn below back on- just turned off for testing
+            // getData()
+
+
+            function getData2() {
+                let url_state = "{% url 'charts:get_plotly_state_url' %}"
+
+                document.querySelector('#loading_icon').style.display = '';
+                document.querySelector('#loading_word').style.display = '';
+
+                let gender_id = gender_input.options[gender_input.selectedIndex].value
+                let education_level_id = education_level.options[education_level.selectedIndex].value
+                let year_id = year_input.options[year_input.selectedIndex].value
+                let income_level_id = income_level.options[income_level.selectedIndex].value
+                axios.get(url_state, {
+                    params: {
+                        gender_id: gender_id,
+                        education_level_id: education_level_id,
+                        year: year_id,
+                        income_level_id: income_level_id,
+                    }
+                })
+                    .then(function (response) {
+                        document.querySelector('#graph_iframe').src = response.data
+                        document.querySelector('#loading_icon').style.display = 'none';
+                        document.querySelector('#loading_word').style.display = 'none';
+                    })
             }
 
-            submit_line_button.onclick = getData
+            // gender_input.onchange = getData
+            // income_level.onchange = getData
+            // education_level.onchange = getData
+            // year_input.onchange = getData
+
+            submit_state_button.onclick = getData2
 
         </script>
 

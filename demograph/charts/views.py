@@ -102,6 +102,7 @@ def get_plotly_line_url(request):
     education_level_id = request.GET.get('education_level_id', '')
     income_level_id = request.GET.get('income_level_id', '')
     year = request.GET.get('year', '')
+    state_id = request.GET.get('state_id', '')
 
     items = IncomeData.objects.all()
     if gender_id != '':
@@ -112,6 +113,8 @@ def get_plotly_line_url(request):
         items = items.filter(income_level_id=income_level_id)
     if education_level_id != '':
         items = items.filter(education_level_id=education_level_id)
+    if state_id != '':
+        items = items.filter(county_state_id=state_id)
 
     counter = 0
     output = {}
@@ -128,22 +131,30 @@ def get_plotly_line_url(request):
             print(f'{round(counter/len(items)*100,2)}%')
         counter += 1
 
-    abbr = list(output.keys())
-    values = list(output.values())
-    for state in State.objects.all():
-        if state.abbr != '' and state.abbr not in abbr:
-            abbr.append(state.abbr)
-            values.append(0)
 
+    # this gets the state values
+    # abbr = list(output.keys())
+    # state_values = list(output.values())
+    # for state in State.objects.all():
+    #     if state.abbr != '' and state.abbr not in abbr:
+    #         abbr.append(state.abbr)
+    #         state_values.append(0)
+
+    # print(state_values[0])
+    # print(abbr)
+    print('**************')
+    print(state_id)
+    print('**************')
 
     female = go.Scatter(
         x=[year],
-        y=[population]
+        y = [state_id]
+        # y=[state_values[0]]
     )
 
     male = go.Scatter(
         x=[3, 4, 6],
-        y=[2, 8]
+        y=[2, 8],
     )
 
     all_genders = go.Scatter(
