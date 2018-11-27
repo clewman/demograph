@@ -117,41 +117,54 @@ def get_plotly_line_url(request):
     # if state_id != '':
     #     items = items.filter(county_state_id=state_id)
 
-    items2 = State.objects.all()
-    if state_id != '':
-        items2 = items2.filter(state_id=state_id)
+    # items2 = State.objects.all()
+    # if state_id != '':
+    #     items2 = items2.filter(state_id=state_id)
 
-
+    #
     # if state_id != '':
     #     items2 = []
     #     for item in items:
-    #         if item.county.state_id == state_id:
+    #         if state_id == state_id:
     #             items2.append(item)
     #     items = items2
+
+    if state_id != '':
+        items2 = []
+        for item in items:
+            if state_id == state_id:
+                # items2.append(item[4])
+                items2.append(item)
+                print('33333333333333333333333333333')
+                print(items2[0])
+                print('33333333333333333333333333333')
+
+        items = items2
 
     print('**************')
     print('[[[[[[[[[[[[[[[[[[[[')
     print(state_id)
-    print('[[[[[[[[[[[[[[[[[[[[')
+    # print(items)
+    print(']]]]]]]]]]]]]]]]]]]]')
 
     print('**************')
 
-    # The counter shows progress of load in terminal (I think). The output creates a list of
+    # The counter shows progress of load in terminal. The output creates a list of
     # all the abbr and pop values
-    # counter = 0
-    # output = {}
-    # for item in items:
-    #     if item.county.state.abbr == '':
-    #         continue
-    #
-    #     if item.county.state.abbr in output:
-    #         output[item.county.state.abbr] += item.population
-    #     else:
-    #         output[item.county.state.abbr] = item.population
-    #
-    #     if counter % 10 == 0:
-    #         print(f'{round(counter/len(items)*100,2)}%')
-    #     counter += 1
+    counter = 0
+    output = {}
+    for item in items:
+        if item.county.state.abbr == '':
+            continue
+
+        if item.county.state.abbr in output:
+            output[item.county.state.abbr] += item.population
+        else:
+            output[item.county.state.abbr] = item.population
+
+        if counter % 10 == 0:
+            print(f'{round(counter/len(items)*100,2)}%')
+        counter += 1
 
 
     # this gets the state values, all of them. Not sure I need this.
@@ -168,8 +181,7 @@ def get_plotly_line_url(request):
 
     female = go.Scatter(
         x=[year],
-        y = [state_id]
-        # y=[state_values[0]]
+        y = [4, 5]
     )
 
     male = go.Scatter(

@@ -12,8 +12,7 @@
                     <option value="">Any Gender</option>
                     {% for gender in genders %}
                     <option value="{{gender.id}}">{{gender.name}}</option>
-                    {% endfor %}ß
-
+                    {% endfor %}
                 </select>
             </div>
         </div>
@@ -23,9 +22,8 @@
                 <select id="state">
                     <option value="">State</option>
                     {% for state in states %}
-                    <option value="{{state.id}}">{{state.abbr}}</option>
-                    {% endfor %}ß
-
+                    <option value="{{state.id}}">{{state.name}}</option>
+                    {% endfor %}
                 </select>
             </div>
         </div>
@@ -115,6 +113,7 @@
             let gender_input = document.querySelector('#gender')
             let income_level = document.querySelector('#income')
             let education_level = document.querySelector('#education')
+            let state_input = document.querySelector('#state')
             let submit_button = document.querySelector('#submit_button')
 
 
@@ -127,6 +126,7 @@
                 let gender_id = gender_input.options[gender_input.selectedIndex].value
                 let education_level_id = education_level.options[education_level.selectedIndex].value
                 let year_id = year_input.options[year_input.selectedIndex].value
+                let state_id = state_input.options[state_input.selectedIndex].value
                 let income_level_id = income_level.options[income_level.selectedIndex].value
                 console.log('gettin the url')
                 axios.get(url, {
@@ -134,6 +134,7 @@
                         gender_id: gender_id,
                         education_level_id: education_level_id,
                         year: year_id,
+                        state_id: state_id,
                         income_level_id: income_level_id,
                     }
                 })
