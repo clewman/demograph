@@ -4,8 +4,6 @@
 // see about doing an "if scatter: change marker size" to make scatter plots bigger but not anything else
 
 
-
-
     // trace1 = {
     //     type: type,
     //     x: a,

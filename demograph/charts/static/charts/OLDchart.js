@@ -48,21 +48,19 @@ function myFunction(type, mode, a) {
             }
           }];
 
-console.log(data.locations);
-  var layout = {
-          title: '2011 US Agriculture Exports by State',
-          geo:{
-            scope: 'usa',
-            showlakes: true,
-            lakecolor: 'rgb(255,255,255)'
-          }
-      };
-      Plotly.plot(finalGraph, data, layout, {showLink: false});
-  });
+    console.log(data.locations);
+      var layout = {
+              title: '2011 US Agriculture Exports by State',
+              geo:{
+                scope: 'usa',
+                showlakes: true,
+                lakecolor: 'rgb(255,255,255)'
+              }
+          };
+          Plotly.plot(finalGraph, data, layout, {showLink: false});
+      });
 
-}
-    else if (type == 'bar' || type == 'line' || type == 'scatter') {
-
+    } else if (type == 'bar' || type == 'line' || type == 'scatter') {
 
         trace1 = {
             type: type,
@@ -105,11 +103,7 @@ console.log(data.locations);
             type: type
         }];
     }
-
-
-
     Plotly.newPlot('finalGraph', data, layout, {displayModeBar: false});
-
 }
 
 

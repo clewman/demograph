@@ -105,6 +105,7 @@ def get_plotly_line_url(request):
     year = request.GET.get('year', '')
     state_id = request.GET.get('state_id', '')
 
+
     items = IncomeData.objects.all()
     if gender_id != '':
         items = items.filter(gender_id=gender_id)
@@ -114,39 +115,17 @@ def get_plotly_line_url(request):
         items = items.filter(income_level_id=income_level_id)
     if education_level_id != '':
         items = items.filter(education_level_id=education_level_id)
-    # if state_id != '':
-    #     items = items.filter(county_state_id=state_id)
-
-    # items2 = State.objects.all()
-    # if state_id != '':
-    #     items2 = items2.filter(state_id=state_id)
-
-    #
-    # if state_id != '':
-    #     items2 = []
-    #     for item in items:
-    #         if state_id == state_id:
-    #             items2.append(item)
-    #     items = items2
-
     if state_id != '':
         items2 = []
         for item in items:
-            if state_id == state_id:
-                # items2.append(item[4])
+            if state_id == item.county.state_id:
                 items2.append(item)
-                print('33333333333333333333333333333')
-                print(items2[0])
-                print('33333333333333333333333333333')
-
         items = items2
 
     print('**************')
     print('[[[[[[[[[[[[[[[[[[[[')
     print(state_id)
-    # print(items)
     print(']]]]]]]]]]]]]]]]]]]]')
-
     print('**************')
 
     # The counter shows progress of load in terminal. The output creates a list of
@@ -178,9 +157,15 @@ def get_plotly_line_url(request):
     # print(state_values[0])
     # print(abbr)
 
+    years = list(set([item.year for item in items]))
+    years.sort()
+
+
+
+
 
     female = go.Scatter(
-        x=[year],
+        x = [year],
         y = [4, 5]
     )
 
@@ -196,8 +181,8 @@ def get_plotly_line_url(request):
 
     data = [female, male, all_genders]
 
-    # url = py.plot(data, filename='basic-line' + str(counter), auto_open=False)
-    # print(url)
+    url = py.plot(data, filename='basic-line' + str(counter), auto_open=False)
+    print(url)
     return HttpResponse(url)
 
 def get_plotly_state_url(request):
