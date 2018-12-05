@@ -13,8 +13,9 @@ chart_type_ddl.onchange = function () {
     myFunction(type, mode, a)
 }
 
+let x = 5;
+let y = 10;
 
-// need to set x and y
 function myFunction(type, mode, a) {
 
      if (type == 'bar' || type == 'line' || type == 'scatter') {

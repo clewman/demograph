@@ -98,6 +98,8 @@ def get_data(request):
     return JsonResponse({'data': data})
 
 
+def get_plotly_line_url(request):
+    pass
 
 
 def get_plotly_state_url(request):
@@ -145,23 +147,26 @@ def get_plotly_state_url(request):
            [0.6, 'rgb(153,51,102)'], [0.8, 'rgb(107,35,71)'], [1.0, 'rgb(45,15,30)']]
 
     # creates title for chart
-    if gender_id == '':
-        chart_title = 'All Genders' + '<br>'
+    if gender_id == '' and education_level_id == '' and income_level_id == '' and year == '':
+        chart_title = 'All Genders, Education and Income Levels, All Years'
     else:
-        chart_title = Gender.objects.get(pk=gender_id).name + '<br>'
+        if gender_id == '':
+            chart_title = 'All Genders' + '<br>'
+        else:
+            chart_title = Gender.objects.get(pk=gender_id).name + '<br>'
 
-    if education_level_id == '':
-        chart_title += 'All Education Levels ' + '<br>'
-    else:
-        chart_title += EducationLevel.objects.get(pk=education_level_id).name + '<br>'
-    if income_level_id =='':
-        chart_title = "All Income Levels " + '<br>'
-    else:
-        chart_title += IncomeLevel.objects.get(pk=income_level_id).name + '<br>'
-    if year == '':
-        chart_title += ' All Years '
-    else:
-        chart_title += year
+        if education_level_id == '':
+            chart_title += 'All Education Levels ' + '<br>'
+        else:
+            chart_title += EducationLevel.objects.get(pk=education_level_id).name + '<br>'
+        if income_level_id =='':
+            chart_title = "All Income Levels " + '<br>'
+        else:
+            chart_title += IncomeLevel.objects.get(pk=income_level_id).name + '<br>'
+        if year == '':
+            chart_title += ' All Years '
+        else:
+            chart_title += year
 
     # sets up state map frame
     data = [dict(
@@ -237,26 +242,32 @@ def get_plotly_url(request):
             fips.append(county.fips)
             values.append(0)
 
+    #this makes the graph look nice but it gives weird figures
+    # top_populations = list(sorted(values, reverse=True))[:20]
+    # max_value = sum(top_populations) / len(top_populations) / 10
 
     colorscale = ["#F5F5F5", "#f4eaef", "#ead6e0", "#e0c1d1", "#d6adc1", "#cc99b2", "#c184a3", "#b77093", "#ad5b84", "#a34775", "#993366",
                   "#892d5b", "#7a2851", "#6b2347", "#5b1e3d", "#4c1933", "#2d0f1e", "#0f050a"]
 
-    if gender_id == '':
-        chart_title = 'All Genders, '
+    if gender_id == '' and education_level_id == '' and income_level_id == '' and year == '':
+        chart_title = 'All Genders, Education and Income Levels, All Years'
     else:
-        chart_title = Gender.objects.get(pk=gender_id).name + ', '
-    if year == '':
-        chart_title+= 'All Years, '
-    else:
-        chart_title += year + ', '
-    if education_level_id == '':
-        chart_title += 'All Education Levels, '
-    else:
-        chart_title += EducationLevel.objects.get(pk=education_level_id).name + ', '
-    if income_level_id =='':
-        chart_title = "All Education Levels, "
-    else:
-        chart_title += IncomeLevel.objects.get(pk=income_level_id).name
+        if gender_id == '':
+            chart_title = 'All Genders, '
+        else:
+            chart_title = Gender.objects.get(pk=gender_id).name + ', '
+        if year == '':
+            chart_title+= 'All Years, '
+        else:
+            chart_title += year + ', '
+        if education_level_id == '':
+            chart_title += 'All Education Levels, '
+        else:
+            chart_title += EducationLevel.objects.get(pk=education_level_id).name + ', '
+        if income_level_id =='':
+            chart_title = "All Education Levels, "
+        else:
+            chart_title += IncomeLevel.objects.get(pk=income_level_id).name
 
     # endpoints colors
     # endpts = list(np.linspace(0, max_value, len(colorscale) - 1))
