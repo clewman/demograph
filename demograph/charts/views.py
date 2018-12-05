@@ -98,92 +98,7 @@ def get_data(request):
     return JsonResponse({'data': data})
 
 
-def get_plotly_line_url(request):
-    gender_id = request.GET.get('gender_id', '')
-    education_level_id = request.GET.get('education_level_id', '')
-    income_level_id = request.GET.get('income_level_id', '')
-    year = request.GET.get('year', '')
-    state_id = request.GET.get('state_id', '')
 
-
-    items = IncomeData.objects.all()
-    if gender_id != '':
-        items = items.filter(gender_id=gender_id)
-    if year != '':
-        items = items.filter(year=year)
-    if income_level_id != '':
-        items = items.filter(income_level_id=income_level_id)
-    if education_level_id != '':
-        items = items.filter(education_level_id=education_level_id)
-    if state_id != '':
-        items2 = []
-        for item in items:
-            if state_id == item.county.state_id:
-                items2.append(item)
-        items = items2
-
-    print('**************')
-    print('[[[[[[[[[[[[[[[[[[[[')
-    print(state_id)
-    print(']]]]]]]]]]]]]]]]]]]]')
-    print('**************')
-
-    # The counter shows progress of load in terminal. The output creates a list of
-    # all the abbr and pop values
-    counter = 0
-    output = {}
-    for item in items:
-        if item.county.state.abbr == '':
-            continue
-
-        if item.county.state.abbr in output:
-            output[item.county.state.abbr] += item.population
-        else:
-            output[item.county.state.abbr] = item.population
-
-        if counter % 10 == 0:
-            print(f'{round(counter/len(items)*100,2)}%')
-        counter += 1
-
-
-    # this gets the state values, all of them. Not sure I need this.
-    # abbr = list(output.keys())
-    # state_values = list(output.values())
-    # for state in State.objects.all():
-    #     if state.abbr != '' and state.abbr not in abbr:
-    #         abbr.append(state.abbr)
-    #         state_values.append(0)
-
-    # print(state_values[0])
-    # print(abbr)
-
-    years = list(set([item.year for item in items]))
-    years.sort()
-
-
-
-
-
-    female = go.Scatter(
-        x = [year],
-        y = [4, 5]
-    )
-
-    male = go.Scatter(
-        x=[3, 4, 6],
-        y=[2, 8],
-    )
-
-    all_genders = go.Scatter(
-        x=[5, 8, 9],
-        y=[12, 18]
-    )
-
-    data = [female, male, all_genders]
-
-    url = py.plot(data, filename='basic-line' + str(counter), auto_open=False)
-    print(url)
-    return HttpResponse(url)
 
 def get_plotly_state_url(request):
 
@@ -322,9 +237,6 @@ def get_plotly_url(request):
             fips.append(county.fips)
             values.append(0)
 
-    #this makes the graph look nice but it gives weird figures
-    # top_populations = list(sorted(values, reverse=True))[:20]
-    # max_value = sum(top_populations) / len(top_populations) / 10
 
     colorscale = ["#F5F5F5", "#f4eaef", "#ead6e0", "#e0c1d1", "#d6adc1", "#cc99b2", "#c184a3", "#b77093", "#ad5b84", "#a34775", "#993366",
                   "#892d5b", "#7a2851", "#6b2347", "#5b1e3d", "#4c1933", "#2d0f1e", "#0f050a"]

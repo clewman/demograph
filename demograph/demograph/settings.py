@@ -27,7 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
-    'cherylslewman.pythonanywhere.com'
+    'cherylslewman.pythonanywhere.com',
+    'demograph.pdxstudents.com'
 ]
 
 
@@ -122,9 +123,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = "/home/cherylslewman/cherylslewman.pythonanywhere.com/demograph/static"
+# STATIC_ROOT = "/home/cherylslewman/cherylslewman.pythonanywhere.com/demograph/static"
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'charts', 'static'),
+]
 
-#STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = os.path.join(BASE_DIR, "static_root")
 
 
 
