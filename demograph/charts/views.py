@@ -21,7 +21,7 @@ def get_chart_counter():
     chart_counter = SystemParameter.objects.get(name='Chart Counter')
     counter = int(chart_counter.value)
     counter += 1
-    if counter >= 24:
+    if counter >= 10:
         counter = 0
     chart_counter.value = str(counter)
     chart_counter.save()
@@ -160,7 +160,7 @@ def get_plotly_state_url(request):
         else:
             chart_title += EducationLevel.objects.get(pk=education_level_id).name + '<br>'
         if income_level_id =='':
-            chart_title = "All Income Levels " + '<br>'
+            chart_title += "All Income Levels " + '<br>'
         else:
             chart_title += IncomeLevel.objects.get(pk=income_level_id).name + '<br>'
         if year == '':
@@ -197,7 +197,7 @@ def get_plotly_state_url(request):
 
     fig = dict(data=data, layout=layout)
 
-    url = py.plot(fig, filename='d3-cloropleth-map' + str(get_chart_counter()), auto_open=False)
+    url = py.plot(fig, filename='d3-choropleth-map' + str(get_chart_counter()), auto_open=False)
     print(url)
     return HttpResponse(url)
 
@@ -256,18 +256,18 @@ def get_plotly_url(request):
             chart_title = 'All Genders, '
         else:
             chart_title = Gender.objects.get(pk=gender_id).name + ', '
-        if year == '':
-            chart_title+= 'All Years, '
+        if income_level_id =='':
+            chart_title += "All Income Levels, "
         else:
-            chart_title += year + ', '
+            chart_title += IncomeLevel.objects.get(pk=income_level_id).name
         if education_level_id == '':
             chart_title += 'All Education Levels, '
         else:
             chart_title += EducationLevel.objects.get(pk=education_level_id).name + ', '
-        if income_level_id =='':
-            chart_title = "All Education Levels, "
+        if year == '':
+            chart_title += 'All Years, '
         else:
-            chart_title += IncomeLevel.objects.get(pk=income_level_id).name
+            chart_title += year
 
     # endpoints colors
     # endpts = list(np.linspace(0, max_value, len(colorscale) - 1))
