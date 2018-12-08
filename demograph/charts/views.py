@@ -10,7 +10,8 @@ import plotly.plotly as py
 import plotly.graph_objs as go
 import plotly.plotly as py
 import plotly.graph_objs as go
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
 import pandas as pd
 import resource
 import numpy as np
@@ -98,9 +99,38 @@ def get_data(request):
     return JsonResponse({'data': data})
 
 
+class ChartData(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get_data(request):
+        gender_id = request.GET.get('gender_id', '')
+        education_level_id = request.GET.get('education_level_id', '')
+        income_level_id = request.GET.get('income_level_id', '')
+        year = request.GET.get('year', '')
+        state_id = request.GET.get('state_id', '')
+
+        items = IncomeData.objects.all()
+        if gender_id != '':
+            items = items.filter(gender_id=gender_id)
+        if year != '':
+            items = items.filter(year=year)
+        if income_level_id != '':
+            items = items.filter(income_level_id=income_level_id)
+        if education_level_id != '':
+            items = items.filter(education_level_id=education_level_id)
+
+        if state_id != '':
+            items = items.filter(county_state_id=state_id)
+
+        data = []
+        for item in items:
+            data.append(item.to_dictionary())
+        return JsonResponse({'data': data})
+
+
 def get_plotly_line_url(request):
     pass
-
 
 def get_plotly_state_url(request):
 

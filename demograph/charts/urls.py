@@ -12,5 +12,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('charts/about/', views.about, name='about'),
     path('charts/morecharts/', views.morecharts, name='morecharts'),
+    path('charts/chartdata', views.ChartData, name='chartdata'),
 
+    # url(r'^api/chart/data/$', views.ChartData.as_view(), name='api-chart-data'),
 ]

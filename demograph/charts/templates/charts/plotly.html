@@ -1,0 +1,70 @@
+{% extends 'charts/base.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{% block content %}
+    <div class="row">
+        <div id="income" style="width:1400px; height:800px;"></div>
+    </div>
+{% endblock %}
+<script>
+    $(document).ready(function() {
+        {% block jquery %}
+        {% block jquery %}
+var endpoint = '/dashboard/api/chart/data'
+var articleData = articleLabels = []
+
+$.ajax({
+    method: "GET",
+    url: endpoint,
+    success: function(data){
+        articleLabels = data.article_labels
+        articleData = data.article_data
+        articleChart()
+        transcriptChart()
+    // console.log(data)
+    },
+    error: function(error_data){
+        console.log("error")
+        console.log(error_data)
+    },
+})
+
+function articleChart(){
+    var data = [{
+        x: articleData,
+        y: articleLabels,
+        type: 'bar',
+        orientation: 'h',
+        marker: {
+            color: '#23b7e5',
+        },
+    }];
+    var layout = {
+        title: 'Number of Articles per Company',
+        titlefont: {
+            family: 'Droid Sans Mono',
+            size: 36,
+            color: '#000000'
+        },
+        margin: {l:200},
+    };
+
+    Plotly.newPlot('articles', data, layout);
+}
+
+{% endblock %}
+        {% endblock %}
+    })
+</script>
+
+</body>
+</html>
