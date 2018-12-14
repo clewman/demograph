@@ -17,6 +17,24 @@ import resource
 import numpy as np
 import time
 
+# chart.js test
+from django.views.generic import View
+
+
+class HomeView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'charts.html', {})
+
+
+def get_data_test(request, *args, **kwargs):
+    data = {
+        "sales": 100,
+        "customers": 10,
+    }
+    return JsonResponse(data)
+
+# end chart.js test
+
 # create chart counter to not allow more than 25 graphs to be made (Plotly's max for a free account)
 def get_chart_counter():
     chart_counter = SystemParameter.objects.get(name='Chart Counter')

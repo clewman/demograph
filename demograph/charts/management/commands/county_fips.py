@@ -1,4 +1,4 @@
-# changed FIPS to County Code
+
 import pandas as pd
 
 
@@ -9,7 +9,7 @@ df_sample['FIPS'] = df_sample['State FIPS Code'] + df_sample['County FIPS Code']
 
 
 # County Name/State Abbreviation
-fips = df_sample['County Code'].tolist()
+fips = df_sample['FIPS'].tolist()
 
 
 county_names = []
