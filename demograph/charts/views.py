@@ -21,9 +21,15 @@ import time
 from django.views.generic import View
 
 
-class HomeView(View):
-    def get(self, request, *args, **kwargs):
-        return render(request, 'charts.html', {})
+# class ChartjsView(View):
+#     def get(self, request, *args, **kwargs):
+#         return render(request, 'chartjs.html', {}) #he calls this chart.html
+#
+# def chartjsview(request):
+#     return render(request, 'chartjs.html', {}) #he calls this chart.html
+
+def index(request):
+    return render(request, 'charts/chartjs.html', {})
 
 
 def get_data_test(request, *args, **kwargs):

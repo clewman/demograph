@@ -1,10 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'charts/base.html' %}
+<script>
+    {% block jquery %}
 
-</body>
-</html>
+
+    var endpoint = '/api/data/'
+    // the django way to do the var endpoint above is:
+    // {% url "api-data" %}
+
+
+    $.ajax({
+        method: "GET",
+        url: endpoint,
+        success: function(data){
+            console.log(data)
+            console.log(customers)
+        },
+        error: function(error_data){
+            console.log("error")
+            console.log(error_data)
+        }
+    })
+
+
+    {% endblock %}
+</script>
+{% block content %}
+
+<div>
+    <h1> Hello World</h1>
+</div>
+
+{% endblock content %}
