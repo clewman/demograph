@@ -13,9 +13,4 @@ urlpatterns = [
     path('charts/about/', views.about, name='about'),
     path('charts/morecharts/', views.morecharts, name='morecharts'),
     path('charts/chartdata', views.ChartData, name='chartdata'),
-    # test for plotly
-    path('charts/data/', views.get_data_test, name='api-data'),
-    # path('', views.chartjsview, name='chartjs'),
-
-    # url(r'^api/chart/data/$', views.ChartData.as_view(), name='api-chart-data'),
 ]

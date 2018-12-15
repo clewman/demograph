@@ -18,26 +18,8 @@ import numpy as np
 import time
 
 # chart.js test
-from django.views.generic import View
 
 
-# class ChartjsView(View):
-#     def get(self, request, *args, **kwargs):
-#         return render(request, 'chartjs.html', {}) #he calls this chart.html
-#
-# def chartjsview(request):
-#     return render(request, 'chartjs.html', {}) #he calls this chart.html
-
-def index(request):
-    return render(request, 'charts/chartjs.html', {})
-
-
-def get_data_test(request, *args, **kwargs):
-    data = {
-        "sales": 100,
-        "customers": 10,
-    }
-    return JsonResponse(data)
 
 # end chart.js test
 
