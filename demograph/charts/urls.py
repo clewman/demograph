@@ -2,7 +2,7 @@ from django.conf.urls import url
 from django.urls import path
 from . import views
 
-from .views import ChartData
+from .views import ChartData, HomeView, get_data_chartjs
 
 app_name = 'charts'
 urlpatterns = [
@@ -14,10 +14,13 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('charts/about/', views.about, name='about'),
     path('charts/morecharts/', views.morecharts, name='morecharts'),
-    path('charts/chartdata', views.ChartData, name='chartdata'),
+    # path('charts/chartdata', views.ChartData, name='chartdata'),
     # test for plotly
-    # path('charts/data/', views.get_data_test, name='api-data'),
+    path('graphs/graphsline', views.graphs_line, name='graphs_line'),
+
+    path('api/data/', get_data_chartjs, name='api-data'),
+    path('api/', HomeView.as_view()),
     path('charts/chartjs', views.chartjs, name='chartjs'),
-    # path('api/chart/data/', ChartData.as_view()),
+    path('api/chart/data/', ChartData.as_view()),
 
 ]

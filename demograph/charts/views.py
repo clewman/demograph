@@ -28,26 +28,47 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class HomeView(View):
-    pass
-    # def get(self, request, *args, **kwargs):
-    #     return render(request, 'chartjs.html', {})
+    def get(self, request, *args, **kwargs):
+        return render(request, 'charts/chartjs.html', {"customers":10})
+
+def get_data_chartjs(request, *args, **kwargs):
+    data = {
+        "sales":100,
+        "customers":10,
+    }
+    return JsonResponse(data)
 
 def chartjs(request):
-    # pass
+    labels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"]
+
     return render(request, 'charts/chartjs.html', {})
 
-# class ChartData(APIView):
-#     authentication_classes = []
-#     permission_classes = []
-#
-#     def get(self, request, format=None):
-#         data = {
-#             'sales':100,
-#             'customers': 10,
-#             'users': User.objects.all().count(),
-#         }
-#         usernames = [user.username for user in User.objects.all()]
-#         return Response(data)
+class ChartData(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, format=None):
+        qs_count = User.objects.all().count()
+        labels = ["Users", "Blue", "Yellow", "Green", "Purple", "Orange"]
+        default_items = [qs_count, 234, 122, 432, 235, 134]
+        data = {
+            'labels': labels,
+            'default': 10,
+        }
+        usernames = [user.username for user in User.objects.all()]
+
+        # items = IncomeData.objects.filter(year=2015)
+        # years = {income_datum.year for income_datum in IncomeData.objects.all()}
+        # years = list(years)
+        # years.sort(reverse=True)
+        # print(years)
+        # return render(request, 'api/', {'items': items,
+        #                                                   'years': years,
+        #                                                   'states': State.objects.all(),
+        #                                                   'income_levels': IncomeLevel.objects.all(),
+        #                                                   'education_levels': EducationLevel.objects.all(),
+        #                                                   'genders': Gender.objects.all()})
+        return Response(data)
 
 # end plotly.js test
 
@@ -162,9 +183,117 @@ class ChartData(APIView):
             data.append(item.to_dictionary())
         return JsonResponse({'data': data})
 
+# testing this
+def graphs_line(request):
+    # items = IncomeData.objects.filter(year='2015', gender=Gender.objects.get(pk=2), education_level=EducationLevel.objects.get(pk=1))
+    items = IncomeData.objects.filter(year=2015)
+    years = {income_datum.year for income_datum in IncomeData.objects.all()}
+    years = list(years)
+    years.sort(reverse=True)
+    print(years)
 
+    return render(request, 'charts/chartjsCopy.html', {'items': items,
+                                                  'years': years,
+                                                  'states': State.objects.all(),
+                                                  'income_levels': IncomeLevel.objects.all(),
+                                                  'education_levels': EducationLevel.objects.all(),
+                                                  'genders': Gender.objects.all()})
+
+# testing this too
 def get_plotly_line_url(request):
-    pass
+    gender_id = request.GET.get('gender_id', '')
+    education_level_id = request.GET.get('education_level_id', '')
+    income_level_id = request.GET.get('income_level_id', '')
+    year = request.GET.get('year', '')
+
+    items = IncomeData.objects.all()
+    if gender_id != '':
+        items = items.filter(gender_id=gender_id)
+    if year != '':
+        items = items.filter(year=year)
+    if income_level_id != '':
+        items = items.filter(income_level_id=income_level_id)
+    if education_level_id != '':
+        items = items.filter(education_level_id=education_level_id)
+
+    counter = 0
+    output = {}
+    for item in items:
+        if item.county.fips == '':
+            continue
+
+        if item.county.fips in output:
+            output[item.county.fips] += item.population
+        else:
+            output[item.county.fips] = item.population
+
+        if counter % 10 == 0:
+            print(f'{round(counter/len(items)*100,2)}%')
+        counter += 1
+
+    fips = list(output.keys())
+    values = list(output.values())
+
+    for county in County.objects.all():
+        if county.fips != '' and county.fips not in fips:
+            fips.append(county.fips)
+            values.append(0)
+
+    # this makes the graph look nice but it gives weird figures
+    # top_populations = list(sorted(values, reverse=True))[:20]
+    # max_value = sum(top_populations) / len(top_populations) / 10
+
+    colorscale = ["#F5F5F5", "#f4eaef", "#ead6e0", "#e0c1d1", "#d6adc1", "#cc99b2", "#c184a3", "#b77093", "#ad5b84",
+                  "#a34775", "#993366",
+                  "#892d5b", "#7a2851", "#6b2347", "#5b1e3d", "#4c1933", "#2d0f1e", "#0f050a"]
+
+    if gender_id == '' and education_level_id == '' and income_level_id == '' and year == '':
+        chart_title = 'All Genders, Education and Income Levels, All Years'
+    else:
+        if gender_id == '':
+            chart_title = 'All Genders, '
+        else:
+            chart_title = Gender.objects.get(pk=gender_id).name + ', '
+        if income_level_id == '':
+            chart_title += "All Income Levels, "
+        else:
+            chart_title += IncomeLevel.objects.get(pk=income_level_id).name
+        if education_level_id == '':
+            chart_title += 'All Education Levels, '
+        else:
+            chart_title += EducationLevel.objects.get(pk=education_level_id).name + ', '
+        if year == '':
+            chart_title += 'All Years, '
+        else:
+            chart_title += year
+
+    # endpoints colors
+    # endpts = list(np.linspace(0, max_value, len(colorscale) - 1))
+    average_population = ()
+    # average_population = 100
+
+    average_population = sum(item.population for item in items) / len(items)
+    if len(items) < average_population:
+        endpts = [50, 100, 250, 500, 750, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 7500, 10000, 50000, 100000]
+    else:
+        endpts = [1000, 25000, 35000, 40000, 50000, 75000, 125000, 150000, 200000, 300000, 500000, 1000000, 2000000,
+                  5000000]
+
+    fig = ff.create_choropleth(
+        fips=fips, values=values, scope=['usa'],
+        binning_endpoints=endpts, colorscale=colorscale,
+        show_state_data=False,
+        show_hover=True, centroid_marker={'opacity': 0},
+        asp=2.9, title=chart_title,
+        legend_title='Number of People',
+        county_outline={'color': 'rgb(255,255,255)', 'width': 0.5}, round_legend_values=True,
+    )
+
+    url = py.plot(fig, filename='choropleth_full_usa' + str(get_chart_counter()), auto_open=False)
+    print(url)
+
+    return HttpResponse(url)
+
 
 def get_plotly_state_url(request):
 
