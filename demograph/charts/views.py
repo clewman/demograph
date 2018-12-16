@@ -17,6 +17,7 @@ import resource
 import numpy as np
 import time
 
+
 # plotly.js test
 from django.views.generic import View
 from rest_framework.views import APIView
@@ -205,6 +206,7 @@ def get_plotly_line_url(request):
     education_level_id = request.GET.get('education_level_id', '')
     income_level_id = request.GET.get('income_level_id', '')
     year = request.GET.get('year', '')
+    state_id = request.GET.get('state_id', '')
 
     items = IncomeData.objects.all()
     if gender_id != '':
@@ -216,81 +218,58 @@ def get_plotly_line_url(request):
     if education_level_id != '':
         items = items.filter(education_level_id=education_level_id)
 
+# not rendering the proper data
+    if state_id != '':
+        items = items.filter(county_id=state_id)
+
+    # if state_id != '':
+    #     items2 = []
+    #     for item in items:
+    #         if item.county.state_id == state_id:
+    #             items2.append(item)
+    #     items = items2
+
     counter = 0
     output = {}
     for item in items:
-        if item.county.fips == '':
+        if item.county.state.abbr == '':
             continue
 
-        if item.county.fips in output:
-            output[item.county.fips] += item.population
+        if item.county.state.abbr in output:
+            output[item.county.state.abbr] += item.population
         else:
-            output[item.county.fips] = item.population
+            output[item.county.state.abbr] = item.population
 
         if counter % 10 == 0:
             print(f'{round(counter/len(items)*100,2)}%')
         counter += 1
 
-    fips = list(output.keys())
+    abbr = list(output.keys())
     values = list(output.values())
 
-    for county in County.objects.all():
-        if county.fips != '' and county.fips not in fips:
-            fips.append(county.fips)
+    # add states to the output that aren't associated with any income data
+    for state in State.objects.all():
+        if state.abbr != '' and state.abbr not in abbr:
+            abbr.append(state.abbr)
             values.append(0)
 
-    # this makes the graph look nice but it gives weird figures
-    # top_populations = list(sorted(values, reverse=True))[:20]
-    # max_value = sum(top_populations) / len(top_populations) / 10
 
-    colorscale = ["#F5F5F5", "#f4eaef", "#ead6e0", "#e0c1d1", "#d6adc1", "#cc99b2", "#c184a3", "#b77093", "#ad5b84",
-                  "#a34775", "#993366",
-                  "#892d5b", "#7a2851", "#6b2347", "#5b1e3d", "#4c1933", "#2d0f1e", "#0f050a"]
+    # Create a trace
+    trace = go.Scatter(
+        x=[year],
+        # y=[gender_id] //gender 0=female, 1=male
+        # national numbers, takes into account education, gender and income level- missing-state
+        y=[item.population]
+        # y=[IncomeData.objects.all()] // doesn't work'
 
-    if gender_id == '' and education_level_id == '' and income_level_id == '' and year == '':
-        chart_title = 'All Genders, Education and Income Levels, All Years'
-    else:
-        if gender_id == '':
-            chart_title = 'All Genders, '
-        else:
-            chart_title = Gender.objects.get(pk=gender_id).name + ', '
-        if income_level_id == '':
-            chart_title += "All Income Levels, "
-        else:
-            chart_title += IncomeLevel.objects.get(pk=income_level_id).name
-        if education_level_id == '':
-            chart_title += 'All Education Levels, '
-        else:
-            chart_title += EducationLevel.objects.get(pk=education_level_id).name + ', '
-        if year == '':
-            chart_title += 'All Years, '
-        else:
-            chart_title += year
-
-    # endpoints colors
-    # endpts = list(np.linspace(0, max_value, len(colorscale) - 1))
-    average_population = ()
-    # average_population = 100
-
-    average_population = sum(item.population for item in items) / len(items)
-    if len(items) < average_population:
-        endpts = [50, 100, 250, 500, 750, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 7500, 10000, 50000, 100000]
-    else:
-        endpts = [1000, 25000, 35000, 40000, 50000, 75000, 125000, 150000, 200000, 300000, 500000, 1000000, 2000000,
-                  5000000]
-
-    fig = ff.create_choropleth(
-        fips=fips, values=values, scope=['usa'],
-        binning_endpoints=endpts, colorscale=colorscale,
-        show_state_data=False,
-        show_hover=True, centroid_marker={'opacity': 0},
-        asp=2.9, title=chart_title,
-        legend_title='Number of People',
-        county_outline={'color': 'rgb(255,255,255)', 'width': 0.5}, round_legend_values=True,
     )
 
-    url = py.plot(fig, filename='choropleth_full_usa' + str(get_chart_counter()), auto_open=False)
-    print(url)
+    data = [trace]
+
+    url = py.plot(data, filename='basic-line', auto_open=False)
+
+    # url = py.plot(fig, filename='choropleth_full_usa' + str(get_chart_counter()), auto_open=False)
+    # print(url)
 
     return HttpResponse(url)
 

@@ -5,6 +5,18 @@
 <div class="chartContainer">
 
     <div class="row">
+        <div class="col s10 m3 l2 xl2">
+            <div class="input-field ddMenus">
+                <select id="state">
+                    <option value="">State</option>
+                    {% for state in states %}
+                    <option value="{{state.id}}">{{state.name}}</option>
+                    {% endfor %}
+
+                </select>
+            </div>
+        </div>
+
 
         <div class="col s10 m3 l2 xl2">
             <div class="input-field ddMenus">
@@ -62,9 +74,9 @@
 
                 <li><a id="submit_state_button"><span class="dd_text">State Choropleth</span></a>
                 </li>
-                <!--<li class="divider" tabindex="-1"></li>-->
-                <!--<li><a href="#!"><span class="dd_text">Line</span></a></li>-->
-                <!--<li class="divider" tabindex="-1"></li>-->
+                <li class="divider" tabindex="-1"></li>
+                <li><a id="submit_line_button" href="#!"><span class="dd_text">Line</span></a></li>
+                <li class="divider" tabindex="-1"></li>
 
                 <!--<li><a href="#!"><span class="dd_text">Bar</span></a></li>-->
                 <!--<li class="divider" tabindex="-1"></li>-->
@@ -102,11 +114,13 @@
             let gender_input = document.querySelector('#gender')
             let income_level = document.querySelector('#income')
             let education_level = document.querySelector('#education')
-            let submit_button = document.querySelector('#submit_button')
+            let submit_line_button = document.querySelector('#submit_line_button')
+            let state_input = document.querySelector('#state')
+
 
 
             function getData() {
-                let url = "{% url 'charts:get_plotly_url' %}"
+                let url = "{% url 'charts:get_plotly_line_url' %}"
 
                 document.querySelector('#loading_icon').style.display = '';
                 document.querySelector('#loading_word').style.display = '';
@@ -115,6 +129,8 @@
                 let education_level_id = education_level.options[education_level.selectedIndex].value
                 let year_id = year_input.options[year_input.selectedIndex].value
                 let income_level_id = income_level.options[income_level.selectedIndex].value
+                let state_id = state_input.options[state_input.selectedIndex].value
+
                 console.log('gettin the url')
                 axios.get(url, {
                     params: {
@@ -122,58 +138,21 @@
                         education_level_id: education_level_id,
                         year: year_id,
                         income_level_id: income_level_id,
+                        state_id: state_id,
+
                     }
                 })
                     .then(function (response) {
-                        document.querySelector('#graph_iframe').src = response.data
+                        document.querySelector('#graph_iframe').src = response.data;
                         document.querySelector('#loading_icon').style.display = 'none';
                         document.querySelector('#loading_word').style.display = 'none';
 
                     })
             }
 
-            // gender_input.onchange = getData
-            // income_level.onchange = getData
-            // education_level.onchange = getData
-            // year_input.onchange = getData
 
-            submit_button.onclick = getData
+            submit_line_button.onclick = getData
 
-            // make sure to turn below back on- just turned off for testing
-            // getData()
-
-
-            function getData2() {
-                let url_state = "{% url 'charts:get_plotly_state_url' %}"
-
-                document.querySelector('#loading_icon').style.display = '';
-                document.querySelector('#loading_word').style.display = '';
-
-                let gender_id = gender_input.options[gender_input.selectedIndex].value
-                let education_level_id = education_level.options[education_level.selectedIndex].value
-                let year_id = year_input.options[year_input.selectedIndex].value
-                let income_level_id = income_level.options[income_level.selectedIndex].value
-                axios.get(url_state, {
-                    params: {
-                        gender_id: gender_id,
-                        education_level_id: education_level_id,
-                        year: year_id,
-                        income_level_id: income_level_id,
-                    }
-                })
-                    .then(function (response) {
-                        document.querySelector('#graph_iframe').src = response.data
-                        document.querySelector('#loading_icon').style.display = 'none';
-                        document.querySelector('#loading_word').style.display = 'none';
-                    })
-            }
-
-            // gender_input.onchange = getData
-            // income_level.onchange = getData
-            // education_level.onchange = getData
-            // year_input.onchange = getData
-
-            submit_state_button.onclick = getData2
 
         </script>
 
