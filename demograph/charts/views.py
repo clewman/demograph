@@ -17,11 +17,39 @@ import resource
 import numpy as np
 import time
 
-# chart.js test
+# plotly.js test
+from django.views.generic import View
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
+# probably don't need'
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 
-# end chart.js test
+class HomeView(View):
+    pass
+    # def get(self, request, *args, **kwargs):
+    #     return render(request, 'chartjs.html', {})
+
+def chartjs(request):
+    pass
+    # return render(request, 'charts/chartjs.html', {})
+
+class ChartData(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, format=None):
+        data = {
+            'sales':100,
+            'customers': 10,
+            'users': User.objects.all().count(),
+        }
+        usernames = [user.username for user in User.objects.all()]
+        return Response(data)
+
+# end plotly.js test
 
 # create chart counter to not allow more than 25 graphs to be made (Plotly's max for a free account)
 def get_chart_counter():
