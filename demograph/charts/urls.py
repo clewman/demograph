@@ -18,6 +18,6 @@ urlpatterns = [
     # test for plotly
     # path('charts/data/', views.get_data_test, name='api-data'),
     path('charts/chartjs', views.chartjs, name='chartjs'),
-    path('api/chart/data/', ChartData.as_view()),
+    # path('api/chart/data/', ChartData.as_view()),
 
 ]

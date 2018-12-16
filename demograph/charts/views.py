@@ -33,21 +33,21 @@ class HomeView(View):
     #     return render(request, 'chartjs.html', {})
 
 def chartjs(request):
-    pass
-    # return render(request, 'charts/chartjs.html', {})
+    # pass
+    return render(request, 'charts/chartjs.html', {})
 
-class ChartData(APIView):
-    authentication_classes = []
-    permission_classes = []
-
-    def get(self, request, format=None):
-        data = {
-            'sales':100,
-            'customers': 10,
-            'users': User.objects.all().count(),
-        }
-        usernames = [user.username for user in User.objects.all()]
-        return Response(data)
+# class ChartData(APIView):
+#     authentication_classes = []
+#     permission_classes = []
+#
+#     def get(self, request, format=None):
+#         data = {
+#             'sales':100,
+#             'customers': 10,
+#             'users': User.objects.all().count(),
+#         }
+#         usernames = [user.username for user in User.objects.all()]
+#         return Response(data)
 
 # end plotly.js test
 

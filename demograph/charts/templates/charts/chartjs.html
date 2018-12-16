@@ -1,14 +1,25 @@
 {% extends 'charts/base.html' %}
 {% load static %}
+{% block content %}
+
+
 <script
   src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+
+
+<div>
+    <h2> TEST </h2>
+    <canvas id="myChart" width="400" height="400" style="border:1px solid #000000;">
+</canvas>
+
+</div>
 <script>
-    {% block jquery %}
     alert('TEST')
-    var endpoint = '/api/chart/data/'
+    var endpoint = '/charts/chartjs/'
     $.ajax({
         method: "GET",
         url: endpoint,
@@ -58,16 +69,9 @@ var myChart = new Chart(ctx, {
         }
     }
 });
-    {% endblock %}
 </script>
 
-{% block content %}
 
-<div>
-    <h2> TEST </h2>
-    <canvas id="myChart" width="400" height="400"></canvas>
-
-</div>
 
 
 {% endblock %}
