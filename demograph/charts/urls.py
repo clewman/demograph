@@ -16,11 +16,14 @@ urlpatterns = [
     path('charts/morecharts/', views.morecharts, name='morecharts'),
     # path('charts/chartdata', views.ChartData, name='chartdata'),
     # test for plotly
-    path('graphs/graphsline', views.graphs_line, name='graphs_line'),
+    path('graphs/graphsline/', views.graphs_line, name='graphs_line'),
 
     path('api/data/', get_data_chartjs, name='api-data'),
     path('api/', HomeView.as_view()),
     path('charts/chartjs', views.chartjs, name='chartjs'),
     path('api/chart/data/', ChartData.as_view()),
 
+
 ]
+
+

@@ -17,16 +17,19 @@ import resource
 import numpy as np
 import time
 
+# A different plotly test
+
+# end this plotly test
 
 # plotly.js test
 from django.views.generic import View
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-# probably don't need'
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
+
 
 class HomeView(View):
     def get(self, request, *args, **kwargs):
@@ -37,7 +40,9 @@ def get_data_chartjs(request, *args, **kwargs):
         "sales":100,
         "customers":10,
     }
-    return JsonResponse(data)
+    labels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"]
+
+    return JsonResponse(data, labels)
 
 def chartjs(request):
     labels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"]
@@ -50,11 +55,12 @@ class ChartData(APIView):
 
     def get(self, request, format=None):
         qs_count = User.objects.all().count()
-        labels = ["Users", "Blue", "Yellow", "Green", "Purple", "Orange"]
-        default_items = [qs_count, 234, 122, 432, 235, 134]
+        labels = ["Blue", "Yellow", "Green", "Purple", "Orange"]
+        default_items = [234, 122, 432, 235, 134]
         data = {
             'labels': labels,
-            'default': 10,
+            # 'default': 10,
+            'default': default_items
         }
         usernames = [user.username for user in User.objects.all()]
 
